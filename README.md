@@ -2,7 +2,21 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
+
+```bash
+npm install
+#or
+bun install
+```
+
+Download Pocketbase and run backend server:
+
+```bash
+cd db && ./pocketbase serve --dev
+```
+
+Last, run the development server:
 
 ```bash
 npm run dev
