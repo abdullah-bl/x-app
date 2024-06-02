@@ -22,7 +22,6 @@ export const getUserFromCookies = async () => {
 }
 
 export const getUserDate = async () => {
-  console.info("getUserDate")
   try {
     const user = getUserFromCookies()
     if (!user) return null

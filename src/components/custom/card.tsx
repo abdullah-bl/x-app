@@ -7,8 +7,8 @@ export default function CustomCard({
 }) {
   return (
     <div className="border grid gap-1 rounded-lg p-4 shadow-sm">
-      <h3 className="text-base font-base">{title}</h3>
-      <span className="text-lg font-medium">{value}</span>
+      <h3 className="text-sm font-base">{title}</h3>
+      <h3 className="text-xl font-medium">{value}</h3>
     </div>
   )
 }

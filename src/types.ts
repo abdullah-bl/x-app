@@ -59,26 +59,42 @@ export type Status = BaseModel & {
   seq: number
   name: string
   description: string
+  duration: number // in days
 }
 
 export type Project = BaseModel & {
   name: string
   description: string
-  cost: number
-  duration: number
-  short_number: string
-  reference: string
-  start_date: Date
-  end_date: Date
-  tags: string[]
+  cost: number // total cost
+  estimated_cost: number // estimated cost
+  tags: string[] // tags
   status: string
   owner: string
   budgets: string[]
+  type: "Tender" | "Contract"
+  tender?: TenderDetail // tender detail
+  contract?: Contract // contract detail
   expand?: {
     owner: User
-    status: Status
     budgets: ProjectBudget[]
+    status: Status
   }
+}
+
+export type Contract = {
+  start: string
+  end: string
+}
+
+export type TenderDetail = {
+  reference: string
+  number: string
+  submissionDate: string
+  type: string
+  lastOfferPresentationDate: string
+  offersOpeningDate: string
+  awardedDate: string
+  duration: number
 }
 
 export type StatusHistory = BaseModel & {
@@ -120,5 +136,32 @@ export type ProjectBudget = BaseModel & {
     project: Project
     budget: Budget
     owner: User
+  }
+}
+
+export type XFile = BaseModel & {
+  name: string
+  url: string
+  owner: string
+  project: string
+  payment: string
+  expand?: {
+    owner: User
+    project: Project
+    payment: Payment
+  }
+}
+
+export type Change = {
+  id?: string
+  target_id: string
+  action: "CREATE" | "READ" | "UPDATE" | "DELETE"
+  user: string
+  note?: string
+  created?: Date
+  updated?: Date
+  expand?: {
+    project: Project
+    user: User
   }
 }

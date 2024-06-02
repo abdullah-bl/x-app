@@ -10,6 +10,15 @@ import { toast } from "sonner"
 import { MagicWandIcon } from "@radix-ui/react-icons"
 import { readStreamableValue } from "ai/rsc"
 import { generateContent } from "~/actions/ai"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select"
 
 const initialState = {
   success: false,
@@ -34,16 +43,11 @@ export default function CreateProjectForm() {
   const generateDescription = async () => {
     setDescription("\n")
     const result = await generateContent(
-      `Project Name ${name}.`,
-      `
-      Generate a short description for the project name.
-      Provide a brief overview of the project.
-      Scope of work, deliverables, and outcomes.
-      Make it clear and concise.
-      Only Use Arabic language.
-      Write in plain text.
-      Don't add any notes or comments.
-    `,
+      `.
+       ${name} اكتب وصف مختصر للمشروع
+        لا تزيد عن 255 حرف
+      `,
+      "استخدم اللغة العربية فقط!",
       "llama3"
     )
     for await (const content of readStreamableValue(result)) {
@@ -116,13 +120,33 @@ export default function CreateProjectForm() {
             name="duration"
             id="duration"
             type="number"
-            placeholder="Duration in months"
-            defaultValue={3}
+            required
+            defaultValue={0}
+            placeholder="0"
+            min={0}
+            pattern=""
           />
-          <span className="text-xs text-zinc-500">
-            Estimated duration in Months
-          </span>
+          <span className="text-xs text-zinc-500">Estimated duration</span>
         </div>
+      </div>
+      <div className="grid gap-1">
+        <Label htmlFor="type">Type</Label>
+        <Select name="type">
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Type</SelectLabel>
+              <SelectItem value="منافسة العامة">منافسة العامة</SelectItem>
+              <SelectItem value="منافسة محدودة">منافسة محدودة</SelectItem>
+              <SelectItem value="الشراء المباشر">شراء المباشر</SelectItem>
+              <SelectItem value="الاتفاقية الإطارية">
+                اتفاقية الإطارية
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
       <div className="grid gap-1">
         <Label htmlFor="tags">Tags</Label>

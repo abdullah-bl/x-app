@@ -1,19 +1,13 @@
 "use client"
 
-import { useActionState, useEffect } from "react"
+import { useActionState, useEffect, useState } from "react"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { uploadFile } from "~/actions/upload"
 import { toast } from "sonner"
 
-export function UploadFile({
-  targetId,
-  targetName,
-}: {
-  targetId: string
-  targetName: "project" | "payment"
-}) {
+export function UploadFile({ targetId }: { targetId: string }) {
   const [state, dispatch] = useActionState(uploadFile, {
     success: false,
     message: "",
@@ -21,7 +15,6 @@ export function UploadFile({
 
   useEffect(() => {
     if (state?.success) {
-      console.log(state.message)
       toast.success(state.message)
     } else if (state?.message) {
       console.error(state.message)
@@ -32,8 +25,10 @@ export function UploadFile({
   }, [state])
 
   return (
-    <form className="grid gap-2 border rounded-lg p-4" action={dispatch}>
-      <span className="font-medium text-md"> Upload File </span>
+    <form
+      className="flex flex-col gap-2 rounded-md p-4 border sm:w-1/3 w-full"
+      action={dispatch}
+    >
       <Label htmlFor="name">Name</Label>
       <Input
         type="text"
@@ -53,7 +48,7 @@ export function UploadFile({
       <span className="text-xs text-zinc-500">
         <small>Only PDF, DOCX, and XLSX files are allowed</small>
       </span>
-      <input type="hidden" name={targetName} value={targetId} />
+      <input type="hidden" name="target_id" value={targetId} />
       <Button type="submit" size={"sm"}>
         Upload
       </Button>

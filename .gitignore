@@ -40,4 +40,4 @@ next-env.d.ts
 /db/pocketbase
 /db/pb_data/*.db
 /db/pb_data/backups
-/db/pb_data/stoarge
+/db/pb_data/storage

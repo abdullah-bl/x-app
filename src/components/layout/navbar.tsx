@@ -2,10 +2,7 @@
 
 import { ModeToggle } from "./theme"
 import {
-  ArrowLeftIcon,
-  ArrowUpIcon,
   ChatBubbleIcon,
-  DotsVerticalIcon,
   ExitIcon,
   GearIcon,
   LetterCaseCapitalizeIcon,
@@ -32,17 +29,11 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 export default function Navbar() {
-  const pathname = usePathname()
-
-  const handleBack = () => {
-    window.history.back()
-  }
-
   const currentYear = new Date().getFullYear()
 
   return (
     <nav className="flex items-center justify-between p-4 mx-auto max-w-4xl gap-2 w-full">
-      <div className="flex items-center space-x-4 flex-1">
+      <div className="flex items-center gap-2 flex-1">
         <NavItem href="/">/</NavItem>
         <NavItem href="/projects">Projects</NavItem>
         <NavItem href={`/budgets/${currentYear}`}>Budgets</NavItem>

@@ -21,7 +21,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={Rubik.className}
     >
-      <body>
+      <body className="w-screen h-screen">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

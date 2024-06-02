@@ -11,16 +11,14 @@ export const uploadFile = async (prevState: any, formDate: FormData) => {
     if (!user) return { success: false, message: "User not found" }
     const url = formDate.get("file") as string
     const name = formDate.get("name") as string
-    const project = formDate.get("project") as string | undefined
-    const payment = formDate.get("payment") as string | undefined
-    await client.collection("documents").create({
+    const target_id = formDate.get("target_id") as string
+    await client.collection("files").create({
       url,
       name,
-      project,
-      payment,
+      target_id,
       owner: user.id,
     })
-    revalidatePath(`/projects/${project}`)
+    revalidatePath(`/projects/${target_id.split("-")[0]}/files`)
     return { success: true, message: "File has been uploaded successfully!" }
   } catch (error: any) {
     console.error(error)

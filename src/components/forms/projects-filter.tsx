@@ -12,11 +12,42 @@ import {
   SelectLabel,
   SelectItem,
 } from "../ui/select"
+import { useEffect, useState } from "react"
+import { Status } from "~/types"
+import { useRouter } from "next/navigation"
+import { DatePicker } from "../custom/date-picker"
+import { DateRange } from "react-day-picker"
+import { addDays } from "date-fns"
+import { DatePickerWithRange } from "../custom/date-picker-range"
 
 export default function ProjectsFilter() {
   const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: searchParams.get("min_created")
+      ? new Date(searchParams.get("min_created") as string)
+      : undefined,
+    to: searchParams.get("end_date")
+      ? new Date(searchParams.get("max_created") as string)
+      : undefined,
+  })
+  const [statuses, setStatuses] = useState<Status[]>([]) // [Status]
+
+  useEffect(() => {
+    getStatuses()
+  }, [])
+
+  const getStatuses = async () => {
+    const response = await fetch("/api/statuses")
+    const { statuses } = await response.json()
+    setStatuses(statuses)
+    // push empty value to statuses
+    statuses.unshift({ id: " ", name: "All" })
+  }
+
   return (
-    <form method="get" className="grid gap-2">
+    <form method="get" className="flex flex-col gap-2 w-full flex-1">
       <Input
         type="search"
         name="q"
@@ -24,15 +55,49 @@ export default function ProjectsFilter() {
         defaultValue={searchParams.get("q") || ""}
       />
 
-      <Select name="status" defaultValue={searchParams.get("status") || ""}>
+      <div className="flex items-center gap-2">
+        <Input
+          type="number"
+          name="cost_min"
+          placeholder="Min Cost"
+          defaultValue={searchParams.get("cost_min") || ""}
+        />
+        <Input
+          type="number"
+          name="cost_max"
+          placeholder="Max Cost"
+          defaultValue={searchParams.get("cost_max") || ""}
+        />
+      </div>
+
+      {/* <DatePickerWithRange date={date} setDate={setDate} /> */}
+      <DatePickerWithRange date={date} setDate={setDate} />
+
+      <input
+        hidden
+        type="text"
+        name="min_created"
+        defaultValue={date?.from?.toDateString()}
+      />
+      <input
+        hidden
+        type="text"
+        name="max_created"
+        defaultValue={date?.to?.toDateString()}
+      />
+
+      <Select defaultValue={searchParams.get("status") || ""} name="status">
         <SelectTrigger className="">
-          <SelectValue placeholder="Status" />
+          <SelectValue placeholder="Filter By Status" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Status</SelectLabel>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="inactive">Inactive</SelectItem>
+            <SelectLabel>Filter By Status</SelectLabel>
+            {statuses.map((status) => (
+              <SelectItem key={status.id} value={status.id}>
+                {status.name}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>
@@ -52,10 +117,22 @@ export default function ProjectsFilter() {
           </SelectGroup>
         </SelectContent>
       </Select>
+      <div className="flex items-center gap-2">
+        <Button type="submit" size="sm" className="w-full">
+          Filter
+        </Button>
 
-      <Button type="submit" size="sm">
-        Filter
-      </Button>
+        <Button
+          type="reset"
+          size="sm"
+          variant={"outline"}
+          onClick={() => {
+            router.push("/projects")
+          }}
+        >
+          Reset
+        </Button>
+      </div>
     </form>
   )
 }

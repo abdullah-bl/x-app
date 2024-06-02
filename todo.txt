@@ -1,0 +1,63 @@
+
+
+# Project Spite into tow Phases
+
+Before Contract
+    1. Planning
+    2. Approved
+    3. Published
+    4. Opened Offers
+    5. Awarded
+
+After Contract
+    1. Contract Signed
+    2. Work Started
+    3. Work Ended
+    4. Paid
+    5. Closed
+
+
+
+
+# Project go throw the following steps
+
+1. Planning => Review & Update Project Name, Cost, Scope... 
+2. Approved => Sent to be published to the public.
+3. Published => visible to the public 
+4. Offers =>  Opening Offers. 
+5. Awarded => the owner awarded the project to a contractor
+6. Contract Signed => the contractor signed the contract
+7. Work Started => the contractor started the work
+8. Work Completed => the contractor completed the work
+9. Payment Completed  => the owner paid the contractor
+10. Closed => by the owner, by the admin, by the system
+11. Cancelled => by the owner, by the admin, by the system
+
+
+in Planning Stage
+    1. Set a Name
+    2. Scope
+    3. ...
+
+in Approved Stage:
+    1. Get the document ready and Done reviewed
+    2. Sent to the Dep for next steps
+
+in Published Stage:
+    1. The Project Submitted to the public.
+    2. People Can See Project 
+    3. Submit Offers.
+
+in Opening Offers Stage:
+    1. 
+
+
+
+
+
+
+what if the project is cancelled ?
+
+
+
+Project 
