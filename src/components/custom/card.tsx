@@ -1,3 +1,5 @@
+import NumberTicker from "../magicui/number-ticker"
+
 export default function CustomCard({
   title,
   value,
@@ -6,9 +8,9 @@ export default function CustomCard({
   value: string | number
 }) {
   return (
-    <div className="border grid gap-1 rounded-lg p-4 shadow-sm">
-      <h3 className="text-sm font-base">{title}</h3>
-      <h3 className="text-xl font-medium">{value}</h3>
+    <div className="border grid space-y-1 rounded-lg p-4 shadow-sm">
+      <h3 className="">{title}</h3>
+      <span className="text-xl font-medium">{value}</span>
     </div>
   )
 }

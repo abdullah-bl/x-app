@@ -15,6 +15,7 @@ export const getProjects = async ({
   end_date = "",
   min_created = "",
   max_created = "",
+  tender_type = "",
 }: {
   sort?: string
   q?: string
@@ -25,6 +26,7 @@ export const getProjects = async ({
   end_date?: string
   min_created?: string
   max_created?: string
+  tender_type?: string
 }) => {
   const filter = []
   if (q.trim().length > 0)
@@ -42,6 +44,11 @@ export const getProjects = async ({
     filter.push(`created>="${formatDateToSQL(new Date(min_created))}"`)
   if (max_created.trim().length > 0)
     filter.push(`created<="${formatDateToSQL(new Date(max_created))}"`)
+
+  if (tender_type.trim().length > 0)
+    filter.push(`tender.type ~ "${tender_type}"`)
+
+  console.log(filter)
 
   try {
     return await client.collection("projects").getFullList<Project>({

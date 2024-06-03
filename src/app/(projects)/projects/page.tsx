@@ -9,6 +9,9 @@ import CustomCard from "~/components/custom/card"
 import { getProjects } from "~/data/projects"
 import StatusPreview from "~/components/custom/status"
 import { Badge } from "~/components/ui/badge"
+import BlurIn from "~/components/magicui/blur-in"
+import WordFadeIn from "~/components/magicui/word-fade-in"
+import { Button } from "~/components/ui/button"
 
 export default async function ProjectsPage({
   searchParams,
@@ -23,6 +26,7 @@ export default async function ProjectsPage({
     end_date?: string
     min_created?: string
     max_created?: string
+    type?: string
   }
 }) {
   const projects = await getProjects({
@@ -35,6 +39,7 @@ export default async function ProjectsPage({
     end_date: searchParams.end_date || "",
     min_created: searchParams.min_created || "",
     max_created: searchParams.max_created || "",
+    tender_type: searchParams.type || "",
   })
 
   const total_cost = projects.reduce((acc, project) => {
@@ -47,9 +52,9 @@ export default async function ProjectsPage({
     <div className="grid gap-6 max-w-5xl mx-auto">
       <Hero>
         <div className="grid gap-1 place-items-center">
-          <h3 className="text-3xl font-medium">Projects Overview</h3>
+          <h3 className="text-4xl font-medium">Projects Overview</h3>
           <p className="text-zinc-500">
-            Here are the projects you have access to.
+            Preview, filter, and manage your projects.
           </p>
         </div>
       </Hero>
@@ -61,27 +66,33 @@ export default async function ProjectsPage({
         <CustomCard title="Unpaid" value={formatCurrency(0, "SAR")} />
       </div>
       <div className="flex gap-4 flex-col sm:flex-row flex-wrap ">
-        <div className="flex-1 flex flex-col gap-2">
+        <div className="flex-1 flex flex-col gap-1">
           {projects?.map((project) => (
             <div
               key={project.id}
               dir="auto"
-              className="border rounded-lg p-2 grid gap-1"
+              className="border rounded-md p-2 grid gap-1 hover:shadow-sm"
             >
               <div className="flex items-center justify-between">
-                <span className="px-2 font-mono text-xs">
-                  {project.status ? project.expand?.status.name : "Draft"}
-                </span>
+                <div className="font-mono text-sm rounded-md px-2 flex items-center gap-1">
+                  <span className="h-3 w-3 rounded-full bg-yellow-500" />
+                  <span className="font-medium">
+                    {project.status ? project.expand?.status.name : "Draft"}
+                  </span>
+                </div>
                 <Link
-                  className="hover:font-underline"
+                  className="hover:underline"
                   href={`/projects/${project.id}`}
                 >
                   {project.name}
                 </Link>
               </div>
-              <span className="text-sm">
-                {formatCurrency(project.cost, "SAR")}
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="text-sm">
+                  {formatCurrency(project.cost, "SAR")}
+                </span>
+                <span className="text-sm">{project.tender?.type ?? "N/A"}</span>
+              </div>
               <span className="text-sm text-zinc-500">{project.tags}</span>
               <div className="flex items-center justify-between">
                 <Link
@@ -90,17 +101,22 @@ export default async function ProjectsPage({
                 >
                   {project.expand?.owner.name}
                 </Link>
-                <span className="text-sm">
+                <span className="text-sm" title={project.updated}>
                   {formatDistanceToNow(project.updated)}
                 </span>
               </div>
             </div>
           ))}
+          {/* No Projects */}
           {projects.length === 0 && (
-            <div className="p-4 ">
+            <div className="p-4 gap-2 items-center place-items-center min-h-full grid place-content-center">
               <p className="text-lg text-center">
                 No projects found. Try creating a new project.
               </p>
+              <Link href="/projects/new" className="btn btn-primary">
+                Create a new project
+              </Link>
+              <pre>{JSON.stringify(searchParams, null, 2)}</pre>
             </div>
           )}
         </div>
@@ -111,7 +127,11 @@ export default async function ProjectsPage({
           >
             + Create a new project
           </Link>
+          <Button size={"sm"} variant={"outline"} disabled>
+            Generate Report (PDF)
+          </Button>
           <Separator className="my-4" />
+          <h3 className="text-lg font-medium">Filters</h3>
           <ProjectsFilter />
         </div>
       </div>

@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select"
+import { TenderType } from "../custom/tenderType"
 
 const initialState = {
   success: false,
@@ -129,24 +130,9 @@ export default function CreateProjectForm() {
           <span className="text-xs text-zinc-500">Estimated duration</span>
         </div>
       </div>
-      <div className="grid gap-1">
-        <Label htmlFor="type">Type</Label>
-        <Select name="type">
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Type</SelectLabel>
-              <SelectItem value="منافسة العامة">منافسة العامة</SelectItem>
-              <SelectItem value="منافسة محدودة">منافسة محدودة</SelectItem>
-              <SelectItem value="الشراء المباشر">شراء المباشر</SelectItem>
-              <SelectItem value="الاتفاقية الإطارية">
-                اتفاقية الإطارية
-              </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+      <div className="grid gap-2 max-w-xs">
+        <Label htmlFor="tender_type">Tender Type</Label>
+        <TenderType />
       </div>
       <div className="grid gap-1">
         <Label htmlFor="tags">Tags</Label>

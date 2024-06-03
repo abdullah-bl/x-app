@@ -30,6 +30,12 @@ export default async function ProjectChanges({
   })
   return (
     <div className="grid gap-2 p-2">
+      <div className="grid gap-2">
+        <h3 className="text-lg font-medium">Recent Changes</h3>
+        <p className="text-sm text-zinc-500">
+          A list of recent changes made to this project.
+        </p>
+      </div>
       <Table className="w-full">
         <TableCaption>A list of recent changes.</TableCaption>
         <TableHeader>

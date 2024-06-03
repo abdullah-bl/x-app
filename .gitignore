@@ -36,7 +36,7 @@ yarn-error.log*
 next-env.d.ts
 
 
-# db 
+# db files
 /db/pocketbase
 /db/pb_data/*.db
 /db/pb_data/backups

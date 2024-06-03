@@ -19,6 +19,7 @@ import { DatePicker } from "../custom/date-picker"
 import { DateRange } from "react-day-picker"
 import { addDays } from "date-fns"
 import { DatePickerWithRange } from "../custom/date-picker-range"
+import { TenderType } from "../custom/tenderType"
 
 export default function ProjectsFilter() {
   const searchParams = useSearchParams()
@@ -28,7 +29,7 @@ export default function ProjectsFilter() {
     from: searchParams.get("min_created")
       ? new Date(searchParams.get("min_created") as string)
       : undefined,
-    to: searchParams.get("end_date")
+    to: searchParams.get("max_created")
       ? new Date(searchParams.get("max_created") as string)
       : undefined,
   })
@@ -117,6 +118,10 @@ export default function ProjectsFilter() {
           </SelectGroup>
         </SelectContent>
       </Select>
+      <TenderType
+        defaultValue={searchParams.get("tender_type") || ""}
+        placeholder="Filter By Tender Type"
+      />
       <div className="flex items-center gap-2">
         <Button type="submit" size="sm" className="w-full">
           Filter
@@ -130,7 +135,7 @@ export default function ProjectsFilter() {
             router.push("/projects")
           }}
         >
-          Reset
+          Clear Filter
         </Button>
       </div>
     </form>

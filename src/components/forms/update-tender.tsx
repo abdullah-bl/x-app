@@ -26,6 +26,7 @@ import { Label } from "../ui/label"
 import { Input } from "../ui/input"
 import { updateProjectTender } from "~/actions/projects"
 import { Pencil1Icon } from "@radix-ui/react-icons"
+import { TenderType } from "../custom/tenderType"
 
 export default function UpdateTenderDetails({ project }: { project: Project }) {
   const [open, setOpen] = useState(false)
@@ -141,20 +142,8 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
             placeholder="Duration in months"
           />
 
-          <Label htmlFor="type">Type</Label>
-          <Select name="type" defaultValue={project.tender?.type}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="منافسة العامة">منافسة العامة</SelectItem>
-              <SelectItem value="منافسة محدودة">منافسة محدودة</SelectItem>
-              <SelectItem value="الشراء المباشر">شراء المباشر</SelectItem>
-              <SelectItem value="الاتفاقية الإطارية">
-                اتفاقية الإطارية
-              </SelectItem>
-            </SelectContent>
-          </Select>
+          <Label htmlFor="type">Tender Type</Label>
+          <TenderType defaultValue={project.tender?.type} />
 
           <Button type="submit">
             {state?.success ? "Updated" : "Save & Update"}

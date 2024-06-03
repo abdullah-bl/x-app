@@ -111,19 +111,26 @@ export type StatusHistory = BaseModel & {
 }
 
 // Project go throw the following steps
-// 1. Draft => reviewing by the owner
-// 2. Approved => sent to be published to the public
-// 3. Published => visible to the public
-// 4. Opened Offers => waiting for offers
-// 5. Awarded => the owner awarded the project to a contractor
-// 6. Contract Signed => the contractor signed the contract
-// 7. Work Started => the contractor started the work
-// 8. Work Completed => the contractor completed the work
-// 9. Payment Completed  => the owner paid the contractor
-// 10. Closed => by the owner, by the admin, by the system
-// 11. Cancelled => by the owner, by the admin, by the system
+// Draft => reviewing by the owner
+// Approved => sent to be published to the public
+// Sent => sent to the department to be published
+// Published => visible to the public and waiting for offers
+// Opened Offers => waiting for offers from contractors
+// Awarded => the owner awarded the project to a contractor
+// Contract Signed => the contractor signed the contract
+// Work Started => the contractor started the work
+// Work Completed => the contractor completed the work
+// Payment Completed  => the owner paid the contractor
+// Closed => by the owner, by the admin, by the system
+// Cancelled => by the owner, by the admin, by the system
 
 // project budgets are the main budgets for the project
+// normal status flow
+// draft > approved > sent > expro > published > opened offers > awarded > contract signed > work started > work completed > payment completed > closed >
+// draft > cancelled > closed
+// draft > closed
+// draft > approved > cancelled > closed
+// draft > approved > published > cancelled > closed
 
 export type ProjectBudget = BaseModel & {
   project: string

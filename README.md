@@ -10,9 +10,11 @@ npm install
 bun install
 ```
 
-Download Pocketbase and run backend server:
+Download Pocketbase from [here](https://pocketbase.io/) and unzip file, then run the following command to start the database server:
 
 ```bash
+bun run db 
+#or
 cd db && ./pocketbase serve --dev
 ```
 
