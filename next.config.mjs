@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+   logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
     typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
@@ -12,6 +17,7 @@ const nextConfig = {
       bodySizeLimit: '100mb',
     },
     reactCompiler: true,
+    
   }
 };
 

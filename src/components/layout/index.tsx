@@ -1,14 +1,17 @@
-import Navbar from "~/components/layout/navbar"
+import { getUserFromCookies } from "~/lib/auth"
+import SideBar from "./sidebar"
 
-export default function PageLayout({
+export default async function PageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const user = await getUserFromCookies()
+
   return (
-    <main className="mx-auto max-w-4xl flex flex-col gap-4 p-1 sm:p-2 min-h-screen">
-      <Navbar />
-      {children}
+    <main className=" min-w-screen min-h-screen flex gap-1 overflow-hidden">
+      {user ? <SideBar user={user} /> : null}
+      <div className="flex-1 overflow-scroll h-screen p-4">{children}</div>
     </main>
   )
 }

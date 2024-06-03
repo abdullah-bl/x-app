@@ -122,3 +122,8 @@
 input, textarea {
   direction: 'auto';
 }
+
+
+::-webkit-scrollbar {
+  width: 0px;
+}

@@ -32,8 +32,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "src/app/api/uploads/[...arg]/.route.ts"  ],
+    ".next/types/**/*.ts"],
   "exclude": [
     "node_modules",
     "db"

@@ -2,11 +2,14 @@ import { MagicWandIcon } from "@radix-ui/react-icons"
 import { Suspense } from "react"
 import { Back } from "~/components/custom/back"
 import CreateProjectForm from "~/components/forms/create-project"
+import Container from "~/components/layout/container"
+import { PageHeader } from "~/components/layout/header"
 import { Skeleton } from "~/components/ui/skeleton"
 
 export default function NewProjectPage() {
   return (
-    <div className="w-full flex gap-4 flex-wrap p-2">
+    <Container>
+      <PageHeader showBackButton title="New Project" />
       <div className="w-1/1 text-sm md:w-1/4 w-full flex flex-col gap-2 rounded-lg p-4 bg-zinc-50 dark:bg-zinc-900">
         <Back />
         <h3>Instructions:</h3>
@@ -23,6 +26,6 @@ export default function NewProjectPage() {
       <Suspense fallback={<Skeleton className="h-6 w-[250px]" />}>
         <CreateProjectForm />
       </Suspense>
-    </div>
+    </Container>
   )
 }

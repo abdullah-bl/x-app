@@ -21,7 +21,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={Rubik.className}
     >
-      <body className="w-screen h-screen">
+      <body className=" overflow-hidden scroll-smooth mx-auto max-w-8xl">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

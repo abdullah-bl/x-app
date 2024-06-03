@@ -40,7 +40,7 @@ export default function ProjectsFilter() {
   }, [])
 
   const getStatuses = async () => {
-    const response = await fetch("/api/statuses")
+    const response = await fetch("/api/statuses", { cache: "force-cache" })
     const { statuses } = await response.json()
     setStatuses(statuses)
     // push empty value to statuses

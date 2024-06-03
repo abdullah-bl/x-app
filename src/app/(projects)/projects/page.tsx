@@ -12,6 +12,8 @@ import { Badge } from "~/components/ui/badge"
 import BlurIn from "~/components/magicui/blur-in"
 import WordFadeIn from "~/components/magicui/word-fade-in"
 import { Button } from "~/components/ui/button"
+import { PageHeader } from "~/components/layout/header"
+import Container from "~/components/layout/container"
 
 export default async function ProjectsPage({
   searchParams,
@@ -49,7 +51,17 @@ export default async function ProjectsPage({
   }, 0)
 
   return (
-    <div className="grid gap-6 max-w-5xl mx-auto">
+    <Container>
+      <PageHeader title="Project Page">
+        <div className="flex-1 flex items-center justify-end gap-2 ">
+          <Link
+            href="/projects/new"
+            className="p-2 px-4 border rounded-lg hover:bg-zinc-100 dark:bg-zinc-900 hover:font-medium text-sm"
+          >
+            + New
+          </Link>
+        </div>
+      </PageHeader>
       <Hero>
         <div className="grid gap-1 place-items-center">
           <h3 className="text-4xl font-medium">Projects Overview</h3>
@@ -59,13 +71,13 @@ export default async function ProjectsPage({
         </div>
       </Hero>
 
-      <div className="grid gap-2 grid-cols-2 sm:grid-cols-4 auto-cols-max grid-flow-row">
+      <div className="grid gap-2 grid-cols-2 lg:grid-cols-4 auto-cols-max grid-flow-row">
         <CustomCard title="Projects" value={projects.length} />
         <CustomCard title="Cost" value={formatCurrency(total_cost, "SAR")} />
         <CustomCard title="Paid" value={formatCurrency(0, "SAR")} />
         <CustomCard title="Unpaid" value={formatCurrency(0, "SAR")} />
       </div>
-      <div className="flex gap-4 flex-col sm:flex-row flex-wrap ">
+      <div className="flex gap-4 flex-col md:flex-row flex-wrap ">
         <div className="flex-1 flex flex-col gap-1">
           {projects?.map((project) => (
             <div
@@ -120,13 +132,7 @@ export default async function ProjectsPage({
             </div>
           )}
         </div>
-        <div className="sm:w-1/3 flex flex-col gap-2">
-          <Link
-            href="/projects/new"
-            className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 rounded-md px-3 text-xs"
-          >
-            + Create a new project
-          </Link>
+        <div className="md:w-1/3 flex flex-col gap-2">
           <Button size={"sm"} variant={"outline"} disabled>
             Generate Report (PDF)
           </Button>
@@ -135,6 +141,6 @@ export default async function ProjectsPage({
           <ProjectsFilter />
         </div>
       </div>
-    </div>
+    </Container>
   )
 }

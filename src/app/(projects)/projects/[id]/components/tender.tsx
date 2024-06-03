@@ -30,7 +30,7 @@ export default async function TenderDetails({ project }: { project: Project }) {
         <h3 className="text-lg">Tender Details</h3>
         <UpdateTenderDetails project={project} />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 border rounded-md">
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 border rounded-md">
         <div className="flex flex-col gap-2 bg-zinc-100 dark:bg-zinc-900 p-2 w-full">
           <span className="font-medium">Number</span>
         </div>

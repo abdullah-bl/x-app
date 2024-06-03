@@ -5,6 +5,8 @@ import TenderDetails from "./components/tender"
 import ContractDetails from "./components/contract"
 import { Suspense } from "react"
 
+export const dynamic = "force-dynamic"
+
 export default async function ProjectDetailsPage({
   params,
 }: {
@@ -20,6 +22,16 @@ export default async function ProjectDetailsPage({
         <CustomCard title="Left" value={formatCurrency(0, "SAR")} />
       </div>
       <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2 border rounded-lg">
+          <div className="flex flex-col gap-2 bg-zinc-100 dark:bg-zinc-900 p-2 w-full">
+            <span className="font-medium">Description</span>
+          </div>
+          <div className="flex flex-col gap-2 p-2 w-full flex-1" dir="auto">
+            <p className=" whitespace-pre-wrap ">
+              {project.description || "Not Set"}
+            </p>
+          </div>
+        </div>
         <Suspense fallback={<div>Loading...</div>}>
           <TenderDetails project={project} />
         </Suspense>
