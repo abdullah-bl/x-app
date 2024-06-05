@@ -39,11 +39,13 @@ export default function SideBar({ user }: { user?: User | undefined }) {
         <NavItem href="/reports" title="Reports" icon={<FileIcon />} />
       </div>
       <div className="flex gap-2 items-center py-2">
-        <NavItem
+        <Link
           href={"/profile"}
-          icon={<PersonIcon />}
-          title={user?.name ?? "N/A"}
-        />
+          className="flex items-center justify-between p-2 w-full rounded-md hover:bg-zinc-100 hover:dark:bg-zinc-900 px-4"
+        >
+          <PersonIcon />
+          {user?.name || "Profile"}
+        </Link>
         <form action={signOut}>
           <Button variant={"ghost"} type="submit">
             <ExitIcon />

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { getUserFromCookies } from "~/lib/auth"
 import client from "~/lib/client"
-import { Status } from "~/types"
+import { Project, Status } from "~/types"
 import { createChange } from "./changes"
 
 export const createProject = async (prevState: any, formDate: FormData) => {
@@ -26,8 +26,16 @@ export const createProject = async (prevState: any, formDate: FormData) => {
       tags,
       owner: user.id,
       statue: statusId?.id,
-      tender: { duration, type },
-      contract: { start: "", end: "" },
+      duration: parseInt(duration || "0"),
+      type,
+      reference: "",
+      number: "",
+      submissionDate: "",
+      lastOfferPresentationDate: "",
+      offersOpeningDate: "",
+      awardedDate: "",
+      start: "",
+      end: "",
     })
     revalidatePath("/projects")
     await createChange({
@@ -77,7 +85,29 @@ export const updateProjectStatus = async (
   }
 }
 
-export const updateProject = async (prevState: any, formDate: FormData) => {}
+export const updateProject = async (prevState: any, formDate: FormData) => {
+  try {
+    const user = await getUserFromCookies()
+    if (!user) return { success: false, message: "User not found" }
+    const data = Object.fromEntries(formDate.entries()) as Project
+    const project = await client.collection("projects").getOne(data.id)
+    await client.collection("projects").update(data.id, {
+      ...project,
+      ...data,
+    })
+    await createChange({
+      action: "UPDATE",
+      target_id: data.id,
+      note: "Project details has been updated",
+      user: user.id,
+    })
+    revalidatePath(`/projects/${data.id}`)
+    return { success: true, message: "Project has been updated" }
+  } catch (error) {
+    console.error(error)
+    return { success: false, message: "Failed to update project" }
+  }
+}
 
 export const updateProjectTender = async (
   prevState: any,
@@ -97,17 +127,27 @@ export const updateProjectTender = async (
     const awardedDate = formDate.get("awardedDate") as string
     const duration = formDate.get("duration") as string
     const type = formDate.get("type") as string
+
+    console.log({
+      projectId,
+      number,
+      reference,
+      submissionDate,
+      lastOfferPresentationDate,
+      offersOpeningDate,
+      awardedDate,
+      duration,
+      type,
+    })
     await client.collection("projects").update(projectId, {
-      tender: {
-        number,
-        reference,
-        submissionDate,
-        lastOfferPresentationDate,
-        offersOpeningDate,
-        awardedDate,
-        duration,
-        type,
-      },
+      number,
+      reference,
+      submissionDate,
+      lastOfferPresentationDate,
+      offersOpeningDate,
+      awardedDate,
+      duration,
+      type,
     })
     await createChange({
       action: "UPDATE",
@@ -134,10 +174,8 @@ export const updateProjectContract = async (
     const start = formDate.get("start") as string
     const end = formDate.get("end") as string
     await client.collection("projects").update(projectId, {
-      contract: {
-        start,
-        end,
-      },
+      start,
+      end,
     })
     await createChange({
       action: "UPDATE",

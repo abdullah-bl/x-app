@@ -14,6 +14,7 @@ import WordFadeIn from "~/components/magicui/word-fade-in"
 import { Button } from "~/components/ui/button"
 import { PageHeader } from "~/components/layout/header"
 import Container from "~/components/layout/container"
+import ProjectsTable from "./components/table"
 
 export default async function ProjectsPage({
   searchParams,
@@ -56,7 +57,7 @@ export default async function ProjectsPage({
         <div className="flex-1 flex items-center justify-end gap-2 ">
           <Link
             href="/projects/new"
-            className="p-2 px-4 border rounded-lg hover:bg-zinc-100 dark:bg-zinc-900 hover:font-medium text-sm"
+            className="p-2 px-4 rounded-lg hover:bg-zinc-100 dark:bg-zinc-900 hover:font-medium text-sm"
           >
             + New
           </Link>
@@ -77,8 +78,13 @@ export default async function ProjectsPage({
         <CustomCard title="Paid" value={formatCurrency(0, "SAR")} />
         <CustomCard title="Unpaid" value={formatCurrency(0, "SAR")} />
       </div>
-      <div className="flex gap-4 flex-col md:flex-row flex-wrap ">
-        <div className="flex-1 flex flex-col gap-1">
+      <div className="grid gap-2">
+        <div className="flex items-center justify-between">
+          <h3 className="font-medium text-lg">Projects</h3>
+          <ProjectsFilter />
+        </div>
+        <ProjectsTable projects={projects} />
+        {/* <div className="flex-1 flex flex-col gap-1">
           {projects?.map((project) => (
             <div
               key={project.id}
@@ -119,7 +125,7 @@ export default async function ProjectsPage({
               </div>
             </div>
           ))}
-          {/* No Projects */}
+         
           {projects.length === 0 && (
             <div className="p-4 gap-2 items-center place-items-center min-h-full grid place-content-center">
               <p className="text-lg text-center">
@@ -138,8 +144,7 @@ export default async function ProjectsPage({
           </Button>
           <Separator className="my-4" />
           <h3 className="text-lg font-medium">Filters</h3>
-          <ProjectsFilter />
-        </div>
+        </div> */}
       </div>
     </Container>
   )

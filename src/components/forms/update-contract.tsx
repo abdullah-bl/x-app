@@ -10,7 +10,7 @@ import { Button } from "../ui/button"
 import { Label } from "../ui/label"
 import { updateProjectContract } from "~/actions/projects"
 import { addDays } from "date-fns"
-import { Pencil1Icon } from "@radix-ui/react-icons"
+import { CheckIcon, Pencil1Icon } from "@radix-ui/react-icons"
 import {
   Dialog,
   DialogContent,
@@ -26,20 +26,26 @@ export default function UpdateProjectContract({
   project: Project
 }) {
   const [open, setOpen] = useState(false)
-  const duration = project.tender?.duration ? project.tender.duration * 30 : 0 // Convert months to days
+  const duration = project.duration ? project.duration * 30 : 0 // Convert months to days
 
   const [startDate, setStartDate] = useState<Date | undefined>(
-    new Date(project?.contract?.start ?? new Date())
+    project?.start ? new Date(project.start) : new Date() // Set start date to today
   )
 
   const [endDate, setEndDate] = useState<Date | undefined>(
-    new Date(project?.contract?.end ?? addDays(new Date(), duration ?? 0))
+    project?.end ? new Date(project.end) : addDays(new Date(), duration ?? 0) // Set end date to today + duration
   )
 
   const [state, formAction] = useActionState(updateProjectContract, {
     success: false,
     message: "",
   })
+
+  useEffect(() => {
+    if (startDate) {
+      setEndDate(addDays(startDate, duration))
+    }
+  }, [startDate, duration])
 
   useEffect(() => {
     if (state?.success === true) {
@@ -53,8 +59,8 @@ export default function UpdateProjectContract({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="gap-2">
-          <Pencil1Icon /> Edit
+        <Button variant="expandIcon" Icon={Pencil1Icon} iconPlacement="left">
+          Edit
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -64,8 +70,8 @@ export default function UpdateProjectContract({
             Update the contract details for the project
           </DialogDescription>
         </DialogHeader>
-        <form className="grid gap-2 p-1" action={formAction}>
-          <input type="hidden" name="project" value={project.id} />
+        <form className="grid gap-2 grid-cols-2 p-1" action={formAction}>
+          <input type="hidden" name="id" value={project.id} />
 
           <Label htmlFor="start">Start Date</Label>
           <DatePicker date={startDate} setDate={setStartDate} />
@@ -75,18 +81,27 @@ export default function UpdateProjectContract({
             defaultValue={startDate?.toDateString()}
           />
 
-          <Label htmlFor="end">End Date</Label>
+          <Label htmlFor="end">
+            End Date
+            <span className="text-xs text-gray-500 dark:text-gray-400 block font-light">
+              (Calculated based on duration)
+            </span>
+          </Label>
           <DatePicker date={endDate} setDate={setEndDate} />
-          <span className="text-xs text-gray-500 dark:text-gray-400">
-            (Calculated based on duration)
-          </span>
+
           <input
             type="hidden"
             name="end"
             defaultValue={endDate?.toDateString()}
           />
-          <Button type="submit">
-            {state?.success === true ? "Updated!" : "Save & Update"}
+          <Button
+            type="submit"
+            variant="expandIcon"
+            Icon={CheckIcon}
+            iconPlacement="left"
+            className="col-span-2"
+          >
+            {state?.success === true ? "Updated!" : "Update Contract"}
           </Button>
         </form>
       </DialogContent>

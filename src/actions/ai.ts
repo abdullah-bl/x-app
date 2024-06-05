@@ -56,16 +56,21 @@ export async function generateContent(
   maxTokens = 300,
   temperature = 0.5
 ) {
-  const result = await streamText({
-    model: ollama(model),
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: prompt },
-    ],
-    maxTokens,
-    temperature,
-  })
+  try {
+    const result = await streamText({
+      model: ollama(model),
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: prompt },
+      ],
+      maxTokens,
+      temperature,
+    })
 
-  const stream = createStreamableValue(result.textStream)
-  return stream.value
+    const stream = createStreamableValue(result.textStream)
+    return stream.value
+  } catch (error) {
+    console.error(error)
+    return "Sorry, I can't generate content for you at the moment."
+  }
 }

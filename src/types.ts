@@ -60,33 +60,16 @@ export type Status = BaseModel & {
   name: string
   description: string
   duration: number // in days
+  color: string
 }
 
 export type Project = BaseModel & {
   name: string
   description: string
   cost: number // total cost
-  estimated_cost: number // estimated cost
   tags: string[] // tags
   status: string
   owner: string
-  budgets: string[]
-  type: "Tender" | "Contract"
-  tender?: TenderDetail // tender detail
-  contract?: Contract // contract detail
-  expand?: {
-    owner: User
-    budgets: ProjectBudget[]
-    status: Status
-  }
-}
-
-export type Contract = {
-  start: string
-  end: string
-}
-
-export type TenderDetail = {
   reference: string
   number: string
   submissionDate: string
@@ -95,6 +78,13 @@ export type TenderDetail = {
   offersOpeningDate: string
   awardedDate: string
   duration: number
+  start: string
+  end: string
+  archived: boolean
+  expand?: {
+    owner: User
+    status: Status
+  }
 }
 
 export type StatusHistory = BaseModel & {
@@ -109,28 +99,6 @@ export type StatusHistory = BaseModel & {
     owner: User
   }
 }
-
-// Project go throw the following steps
-// Draft => reviewing by the owner
-// Approved => sent to be published to the public
-// Sent => sent to the department to be published
-// Published => visible to the public and waiting for offers
-// Opened Offers => waiting for offers from contractors
-// Awarded => the owner awarded the project to a contractor
-// Contract Signed => the contractor signed the contract
-// Work Started => the contractor started the work
-// Work Completed => the contractor completed the work
-// Payment Completed  => the owner paid the contractor
-// Closed => by the owner, by the admin, by the system
-// Cancelled => by the owner, by the admin, by the system
-
-// project budgets are the main budgets for the project
-// normal status flow
-// draft > approved > sent > expro > published > opened offers > awarded > contract signed > work started > work completed > payment completed > closed >
-// draft > cancelled > closed
-// draft > closed
-// draft > approved > cancelled > closed
-// draft > approved > published > cancelled > closed
 
 export type ProjectBudget = BaseModel & {
   project: string
@@ -172,3 +140,5 @@ export type Change = {
     user: User
   }
 }
+
+// draft > approved > sent > expro > published > opened offers > awarded > contract signed > work started > work completed > payment completed > closed >

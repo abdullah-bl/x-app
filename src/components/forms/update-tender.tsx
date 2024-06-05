@@ -9,8 +9,8 @@ import { Button } from "../ui/button"
 
 import { Label } from "../ui/label"
 import { Input } from "../ui/input"
-import { updateProjectTender } from "~/actions/projects"
-import { Pencil1Icon } from "@radix-ui/react-icons"
+import { updateProject, updateProjectTender } from "~/actions/projects"
+import { CheckIcon, Pencil1Icon } from "@radix-ui/react-icons"
 import { TenderType } from "../custom/tenderType"
 import {
   Dialog,
@@ -25,22 +25,28 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
   const [open, setOpen] = useState(false)
 
   const [submissionDate, setSubmissionDate] = useState<Date | undefined>(
-    new Date(project?.tender?.submissionDate ?? new Date())
+    project?.submissionDate ? new Date(project.submissionDate) : new Date()
   )
 
   const [lastOfferPresentationDate, setLastOfferPresentationDate] = useState<
     Date | undefined
-  >(new Date(project?.tender?.lastOfferPresentationDate ?? new Date()))
+  >(
+    project?.lastOfferPresentationDate
+      ? new Date(project.lastOfferPresentationDate)
+      : new Date()
+  )
 
   const [offersOpeningDate, setOffersOpeningDate] = useState<Date | undefined>(
-    new Date(project?.tender?.offersOpeningDate ?? new Date())
+    project?.offersOpeningDate
+      ? new Date(project.offersOpeningDate)
+      : new Date()
   )
 
   const [awardedDate, setAwardedDate] = useState<Date | undefined>(
-    new Date(project?.tender?.awardedDate ?? new Date())
+    project?.awardedDate ? new Date(project.awardedDate) : new Date()
   )
 
-  const [state, formAction] = useActionState(updateProjectTender, {
+  const [state, formAction] = useActionState(updateProject, {
     success: false,
     message: "",
   })
@@ -57,8 +63,8 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="gap-2">
-          <Pencil1Icon /> Edit
+        <Button variant="expandIcon" Icon={Pencil1Icon} iconPlacement="left">
+          Edit
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -69,14 +75,14 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
           </DialogDescription>
         </DialogHeader>
         <form className="grid gap-2 " action={formAction}>
-          <input type="hidden" name="project" value={project.id} />
+          <input type="hidden" name="id" value={project.id} />
           <div className="grid grid-cols-2 gap-1  align-middle">
             <Label htmlFor="number">Number</Label>
             <Input
               type="text"
               id="number"
               name="number"
-              defaultValue={project?.tender?.number}
+              defaultValue={project?.number}
               placeholder="Tender Number e.g. 1234/24"
             />
             <Label htmlFor="reference">Reference</Label>
@@ -85,7 +91,7 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
               id="reference"
               name="reference"
               placeholder="Reference Number e.g. 1234567890"
-              defaultValue={project?.tender?.reference}
+              defaultValue={project?.reference}
               min={0}
               maxLength={10}
             />
@@ -135,15 +141,20 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
               type="number"
               name="duration"
               min={0}
-              defaultValue={project?.tender?.duration}
+              defaultValue={project?.duration}
               placeholder="Duration in months"
             />
 
             <Label htmlFor="type">Tender Type</Label>
-            <TenderType defaultValue={project.tender?.type} />
+            <TenderType defaultValue={project?.type} />
           </div>
-          <Button type="submit">
-            {state?.success === true ? "Updated" : "Update"}
+          <Button
+            type="submit"
+            variant="expandIcon"
+            Icon={CheckIcon}
+            iconPlacement="left"
+          >
+            {state?.success === true ? "Updated!" : "Update Details"}
           </Button>
         </form>
       </DialogContent>

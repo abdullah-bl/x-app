@@ -15,7 +15,7 @@ import { DatePicker } from "../custom/date-picker"
 import { Status } from "~/types"
 import { Button } from "../ui/button"
 
-import { Pencil1Icon } from "@radix-ui/react-icons"
+import { CheckIcon, Pencil1Icon } from "@radix-ui/react-icons"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { Label } from "../ui/label"
 import {
@@ -26,6 +26,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog"
+import StatusPreview from "../custom/status"
 
 export default function UpdateProjectStatus({
   currentStatus,
@@ -64,8 +65,12 @@ export default function UpdateProjectStatus({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="gap-2">
-          <Pencil1Icon /> {currentStatus?.name || "Update Status"}
+        <Button variant="expandIcon" Icon={Pencil1Icon} iconPlacement="left">
+          {currentStatus ? (
+            <StatusPreview status={currentStatus} />
+          ) : (
+            "Update Status"
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -107,7 +112,14 @@ export default function UpdateProjectStatus({
             defaultValue={date?.toDateString()}
           />
           <input type="hidden" name="project" value={projectId} />
-          <Button type="submit">Update</Button>
+          <Button
+            type="submit"
+            variant="expandIcon"
+            Icon={CheckIcon}
+            iconPlacement="left"
+          >
+            {state?.success === true ? "Updated!" : "Update Status"}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

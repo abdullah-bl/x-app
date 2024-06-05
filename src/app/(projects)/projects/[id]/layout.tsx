@@ -27,13 +27,7 @@ export default async function Layout({
 
   return (
     <Container>
-      <PageHeader showBackButton title={project.name}>
-        <div className="flex-1 flex items-center justify-end gap-2 ">
-          <Button variant={"ghost"} className="px-4 gap-2">
-            <Pencil1Icon /> Edit
-          </Button>
-        </div>
-      </PageHeader>
+      <PageHeader showBackButton title={project.name} />
       <div className="flex-1 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <UpdateProjectStatus
