@@ -15,6 +15,9 @@ import { DatePicker } from "../custom/date-picker"
 import { Status } from "~/types"
 import { Button } from "../ui/button"
 
+import { Pencil1Icon } from "@radix-ui/react-icons"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { Label } from "../ui/label"
 import {
   Dialog,
   DialogContent,
@@ -22,8 +25,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog"
-import { Pencil1Icon } from "@radix-ui/react-icons"
+} from "../ui/dialog"
 
 export default function UpdateProjectStatus({
   currentStatus,
@@ -45,10 +47,10 @@ export default function UpdateProjectStatus({
   }, [])
 
   useEffect(() => {
-    if (state?.success) {
+    if (state?.success === true) {
       toast.success(state.message)
       setOpen(false)
-    } else if (state?.message) {
+    } else if (state?.success === false && state.message) {
       toast.error(state.message)
     }
   }, [state])
@@ -67,14 +69,16 @@ export default function UpdateProjectStatus({
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Update Project Status</DialogTitle>
+        <DialogHeader className="grid gap-1">
+          <DialogTitle className="font-medium">
+            Update Project Status
+          </DialogTitle>
           <DialogDescription>
             Update the status of this project.
           </DialogDescription>
         </DialogHeader>
-        <form className="grid gap-2 p-4 rounded-lg" action={formAction}>
-          <h3 className="font-medium">Update Project Status</h3>
+        <form className="grid gap-2" action={formAction}>
+          <Label htmlFor="status">Status</Label>
           <Select defaultValue={currentStatus?.id} name="status">
             <SelectTrigger className="">
               <SelectValue placeholder="Statuses" />
@@ -87,15 +91,14 @@ export default function UpdateProjectStatus({
               ))}
             </SelectContent>
           </Select>
-          <div className="grid gap-1">
-            <label htmlFor="note">Note</label>
-            <Textarea
-              name="note"
-              id="note"
-              required
-              placeholder="Write something..."
-            />
-          </div>
+          <Label htmlFor="note">Note</Label>
+          <Textarea
+            name="note"
+            id="note"
+            required
+            placeholder="Write something..."
+          />
+          <Label htmlFor="timestamp">When ?</Label>
           <DatePicker date={date} setDate={setDate} title="When ?" />
           <input
             hidden

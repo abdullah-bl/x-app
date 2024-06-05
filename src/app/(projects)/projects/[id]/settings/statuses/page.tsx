@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from "date-fns"
 import Link from "next/link"
-import { getProjectById, getProjectStatusHistory } from "~/data/projects"
+import { getProjectStatusHistory } from "~/data/projects"
 
 import {
   Table,
@@ -17,12 +17,14 @@ export default async function ProjectStatusHistory({
 }: {
   params: { id: string }
 }) {
-  const project = await getProjectById(params.id)
   const histories = await getProjectStatusHistory(params.id)
   return (
-    <div className="grid gap-4 border rounded-lg p-4">
-      <div className="flex items-center justify-between">
-        <h3 className="font-medium">Status History</h3>
+    <div className="grid gap-4">
+      <div className="grid gap-1">
+        <h3 className="text-lg font-medium">Statuses History</h3>
+        <p className="text-sm text-zinc-500">
+          A list of recent status changes made to this project.
+        </p>
       </div>
       <Table>
         <TableCaption>A list of your recent status update.</TableCaption>
@@ -36,11 +38,9 @@ export default async function ProjectStatusHistory({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {histories.map((history) => (
+          {histories.map((history, i) => (
             <TableRow key={history.id}>
-              <TableCell className="font-medium">
-                {history.expand?.status.seq}
-              </TableCell>
+              <TableCell className="font-medium">{i + 1}</TableCell>
               <TableCell className="font-medium">
                 {history.expand?.status.name}
               </TableCell>

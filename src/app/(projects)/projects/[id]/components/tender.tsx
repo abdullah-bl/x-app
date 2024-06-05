@@ -26,8 +26,8 @@ const getProjectTender = async (id: string) => {
 export default async function TenderDetails({ project }: { project: Project }) {
   return (
     <div className="grid gap-2 w-full">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg">Tender Details</h3>
+      <div className="flex items-center justify-between ">
+        <h3 className="font-medium">Tender Details</h3>
         <UpdateTenderDetails project={project} />
       </div>
       <div className="grid sm:grid-cols-2 md:grid-cols-4 border rounded-md">

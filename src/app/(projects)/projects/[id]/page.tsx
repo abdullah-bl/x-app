@@ -32,12 +32,8 @@ export default async function ProjectDetailsPage({
             </p>
           </div>
         </div>
-        <Suspense fallback={<div>Loading...</div>}>
-          <TenderDetails project={project} />
-        </Suspense>
-        <Suspense fallback={<div>Loading...</div>}>
-          <ContractDetails project={project} />
-        </Suspense>
+        <TenderDetails project={project} />
+        <ContractDetails project={project} />
       </div>
     </div>
   )

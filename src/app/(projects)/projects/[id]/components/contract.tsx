@@ -25,7 +25,7 @@ export default async function ContractDetails({
   return (
     <div className="grid gap-2 w-full">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg">Contract Details</h3>
+        <h3 className="font-medium">Contract Details</h3>
         <UpdateProjectContract project={project} />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 border rounded-md text-sm">

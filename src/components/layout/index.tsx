@@ -9,7 +9,7 @@ export default async function PageLayout({
   const user = await getUserFromCookies()
 
   return (
-    <main className=" min-w-screen min-h-screen flex gap-1 overflow-hidden">
+    <main className="min-w-screen min-h-screen overflow-hidden flex gap-1">
       {user ? <SideBar user={user} /> : null}
       <div className="flex-1 overflow-scroll h-screen p-4">{children}</div>
     </main>

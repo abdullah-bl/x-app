@@ -51,7 +51,7 @@ export default function LoginPage() {
                   id="username"
                   type="username"
                   name="username"
-                  placeholder="Enter your username address"
+                  placeholder="Enter your username"
                   required
                 />
                 {/* <PersonIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2  peer-focus:text-gray-900" /> */}

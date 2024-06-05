@@ -11,7 +11,7 @@ import { Badge } from "~/components/ui/badge"
 import Link from "next/link"
 import { Pencil1Icon } from "@radix-ui/react-icons"
 import { Button } from "~/components/ui/button"
-import UpdateProjectStatus from "~/components/forms/update-project-status"
+import UpdateProjectStatus from "~/components/forms/update-status"
 import Container from "~/components/layout/container"
 import { PageHeader } from "~/components/layout/header"
 
@@ -29,7 +29,7 @@ export default async function Layout({
     <Container>
       <PageHeader showBackButton title={project.name}>
         <div className="flex-1 flex items-center justify-end gap-2 ">
-          <Button variant={"outline"} className="px-4 gap-2">
+          <Button variant={"ghost"} className="px-4 gap-2">
             <Pencil1Icon /> Edit
           </Button>
         </div>
@@ -58,8 +58,8 @@ export default async function Layout({
           <CustomLink href={`/projects/${project.id}/files`}>
             Files ({filesCount})
           </CustomLink>
-          <CustomLink href={`/projects/${project.id}/changes`}>
-            Changes
+          <CustomLink href={`/projects/${project.id}/settings`}>
+            Settings
           </CustomLink>
         </div>
         <div className="flex-1 py-2">{children}</div>

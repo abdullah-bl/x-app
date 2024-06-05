@@ -7,19 +7,18 @@ import { DatePicker } from "../custom/date-picker"
 import { Project } from "~/types"
 import { Button } from "../ui/button"
 
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "~/components/ui/sheet"
-
 import { Label } from "../ui/label"
 import { updateProjectContract } from "~/actions/projects"
 import { addDays } from "date-fns"
 import { Pencil1Icon } from "@radix-ui/react-icons"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog"
 
 export default function UpdateProjectContract({
   project,
@@ -43,29 +42,29 @@ export default function UpdateProjectContract({
   })
 
   useEffect(() => {
-    if (state?.success) {
+    if (state?.success === true) {
       toast.success(state.message)
       setOpen(false)
-    } else if (state?.message) {
+    } else if (state?.success === false && state.message) {
       toast.error(state.message)
     }
   }, [state])
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
         <Button variant="ghost" className="gap-2">
           <Pencil1Icon /> Edit
         </Button>
-      </SheetTrigger>
-      <SheetContent className="sm:max-w-[425px]">
-        <SheetHeader>
-          <SheetTitle>Update Contract Details</SheetTitle>
-          <SheetDescription>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Update Contract Details</DialogTitle>
+          <DialogDescription>
             Update the contract details for the project
-          </SheetDescription>
-        </SheetHeader>
-        <form className="grid gap-2 p-4 rounded-lg" action={formAction}>
+          </DialogDescription>
+        </DialogHeader>
+        <form className="grid gap-2 p-1" action={formAction}>
           <input type="hidden" name="project" value={project.id} />
 
           <Label htmlFor="start">Start Date</Label>
@@ -87,10 +86,10 @@ export default function UpdateProjectContract({
             defaultValue={endDate?.toDateString()}
           />
           <Button type="submit">
-            {state?.success ? "Updated" : "Save & Update"}
+            {state?.success === true ? "Updated!" : "Save & Update"}
           </Button>
         </form>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   )
 }

@@ -5,7 +5,7 @@ import { Calendar } from "~/components/ui/calendar"
 export default function CalenderPage() {
   return (
     <Container>
-      <PageHeader title="Calender Page" />
+      {/* <PageHeader title="Calender Page" /> */}
       <div className="flex-1 flex gap-2 min-h-full overflow-hidden">
         <div className="flex-1 flex flex-col gap-4">
           <div className="flex-1 flex flex-col gap-1">

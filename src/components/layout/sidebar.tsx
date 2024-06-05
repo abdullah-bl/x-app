@@ -22,7 +22,7 @@ export default function SideBar({ user }: { user?: User | undefined }) {
   const currentYear = new Date().getFullYear()
 
   return (
-    <aside className=" hidden lg:flex lg:w-[22%] flex-col h-screen p-2 border-x gap-4 ">
+    <aside className=" hidden lg:flex lg:w-[17em] flex-col h-screen p-2 border-x gap-4 ">
       <div className="flex flex-col items-center py-6">
         <span className="font-bold text-4xl"> / </span>
       </div>

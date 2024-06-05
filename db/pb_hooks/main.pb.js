@@ -7,9 +7,12 @@ onAfterBootstrap((e) => {
 })
 
 
+// cron jobs
+cronAdd("hello", "*/1 * * * *", () => {
+    console.log("Hello!")
+})
 
-const statusCollection = $app.dao().findCollectionByNameOrId("statuses")
-const userCollection = $app.dao().findCollectionByNameOrId("users")
+
 
 const defaultStatus = [
     [

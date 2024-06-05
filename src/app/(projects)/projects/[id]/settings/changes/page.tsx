@@ -29,8 +29,8 @@ export default async function ProjectChanges({
     target_id: params.id,
   })
   return (
-    <div className="grid gap-2 p-2">
-      <div className="grid gap-2">
+    <div className="grid gap-2">
+      <div className="grid gap-1">
         <h3 className="text-lg font-medium">Recent Changes</h3>
         <p className="text-sm text-zinc-500">
           A list of recent changes made to this project.
