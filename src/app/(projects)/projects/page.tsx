@@ -1,20 +1,18 @@
-import { formatDistanceToNow } from "date-fns"
 import Link from "next/link"
-import { Suspense } from "react"
 import ProjectsFilter from "~/components/forms/projects-filter"
 import Hero from "~/components/layout/hero"
 import { formatCurrency } from "~/lib/utils"
-import { Separator } from "~/components/ui/separator"
-import CustomCard from "~/components/custom/card"
+import MetricCard from "~/components/custom/metricCard"
 import { getProjects } from "~/data/projects"
-import StatusPreview from "~/components/custom/status"
-import { Badge } from "~/components/ui/badge"
-import BlurIn from "~/components/magicui/blur-in"
-import WordFadeIn from "~/components/magicui/word-fade-in"
-import { Button } from "~/components/ui/button"
 import { PageHeader } from "~/components/layout/header"
 import Container from "~/components/layout/container"
 import ProjectsTable from "./components/table"
+import {
+  BackpackIcon,
+  CheckIcon,
+  InfoCircledIcon,
+  RocketIcon,
+} from "@radix-ui/react-icons"
 
 export default async function ProjectsPage({
   searchParams,
@@ -30,6 +28,7 @@ export default async function ProjectsPage({
     min_created?: string
     max_created?: string
     type?: string
+    archived?: string
   }
 }) {
   const projects = await getProjects({
@@ -43,11 +42,12 @@ export default async function ProjectsPage({
     min_created: searchParams.min_created || "",
     max_created: searchParams.max_created || "",
     tender_type: searchParams.type || "",
+    archived: "false",
   })
 
   const total_cost = projects.reduce((acc, project) => {
     // skip if project status in draft
-    if (project.status_seq === 1 || !project.status) return acc
+    if (!project.expand?.status?.active || !project.status) return acc
     return acc + project.cost
   }, 0)
 
@@ -73,10 +73,26 @@ export default async function ProjectsPage({
       </Hero>
 
       <div className="grid gap-2 grid-cols-2 lg:grid-cols-4 auto-cols-max grid-flow-row">
-        <CustomCard title="Projects" value={projects.length} />
-        <CustomCard title="Cost" value={formatCurrency(total_cost, "SAR")} />
-        <CustomCard title="Paid" value={formatCurrency(0, "SAR")} />
-        <CustomCard title="Unpaid" value={formatCurrency(0, "SAR")} />
+        <MetricCard
+          title="Projects"
+          value={projects.length}
+          Icon={BackpackIcon}
+        />
+        <MetricCard
+          title="Cost"
+          value={formatCurrency(total_cost, "SAR")}
+          Icon={RocketIcon}
+        />
+        <MetricCard
+          title="Paid"
+          value={formatCurrency(0, "SAR")}
+          Icon={CheckIcon}
+        />
+        <MetricCard
+          title="Unpaid"
+          value={formatCurrency(0, "SAR")}
+          Icon={InfoCircledIcon}
+        />
       </div>
       <div className="grid gap-2">
         <div className="flex items-center justify-between">

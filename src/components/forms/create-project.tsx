@@ -110,8 +110,8 @@ export default function CreateProjectForm() {
             defaultValue={0.0}
             placeholder="0"
             min={0.0}
+            step={0.01}
             prefix="SAR"
-            pattern=""
           />
           <span className="text-xs text-zinc-500">Estimated cost</span>
         </div>

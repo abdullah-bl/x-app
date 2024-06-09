@@ -22,3 +22,23 @@ export const taskSchema = object({
 })
 
 export type Task = z.infer<typeof taskSchema>
+
+export const projectSchema = object({})
+
+export const ContractSchema = object({
+  id: string({ required_error: "Project Id is Required" }),
+  start: z.optional(z.string().datetime()),
+  end: z.optional(z.string().datetime()),
+})
+
+export const TenderSchema = object({
+  id: string({ required_error: "Project Id is Required" }),
+  type: z.optional(z.string()),
+  reference: z.optional(z.string()),
+  number: z.optional(z.string()),
+  submissionDate: z.optional(z.string().datetime()),
+  lastOfferPresentationDate: z.optional(z.string().datetime()),
+  offersOpeningDate: z.optional(z.string().datetime()),
+  awardedDate: z.optional(z.string().datetime()),
+  duration: z.optional(z.string()),
+})

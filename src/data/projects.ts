@@ -16,6 +16,7 @@ export const getProjects = async ({
   min_created = "",
   max_created = "",
   tender_type = "",
+  archived = "false",
 }: {
   sort?: string
   q?: string
@@ -27,6 +28,7 @@ export const getProjects = async ({
   min_created?: string
   max_created?: string
   tender_type?: string
+  archived?: string
 }) => {
   const filter = []
   if (q.trim().length > 0)
@@ -45,8 +47,10 @@ export const getProjects = async ({
   if (max_created.trim().length > 0)
     filter.push(`created<="${formatDateToSQL(new Date(max_created))}"`)
 
-  if (tender_type.trim().length > 0)
-    filter.push(`tender.type ~ "${tender_type}"`)
+  if (tender_type.trim().length > 0) filter.push(`type ~ "${tender_type}"`)
+
+  if (archived === "true") filter.push(`archived=true`)
+  else filter.push(`archived=false`)
 
   console.log(filter)
 

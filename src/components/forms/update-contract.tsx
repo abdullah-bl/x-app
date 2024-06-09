@@ -8,7 +8,7 @@ import { Project } from "~/types"
 import { Button } from "../ui/button"
 
 import { Label } from "../ui/label"
-import { updateProjectContract } from "~/actions/projects"
+import { updateProject, updateProjectContract } from "~/actions/projects"
 import { addDays } from "date-fns"
 import { CheckIcon, Pencil1Icon } from "@radix-ui/react-icons"
 import {
@@ -36,7 +36,7 @@ export default function UpdateProjectContract({
     project?.end ? new Date(project.end) : addDays(new Date(), duration ?? 0) // Set end date to today + duration
   )
 
-  const [state, formAction] = useActionState(updateProjectContract, {
+  const [state, formAction] = useActionState(updateProject, {
     success: false,
     message: "",
   })
@@ -71,14 +71,15 @@ export default function UpdateProjectContract({
           </DialogDescription>
         </DialogHeader>
         <form className="grid gap-2 grid-cols-2 p-1" action={formAction}>
-          <input type="hidden" name="id" value={project.id} />
+          <input hidden type="text" name="id" value={project.id} />
 
           <Label htmlFor="start">Start Date</Label>
           <DatePicker date={startDate} setDate={setStartDate} />
           <input
-            type="hidden"
+            hidden
+            type="text"
             name="start"
-            defaultValue={startDate?.toDateString()}
+            defaultValue={startDate?.toISOString()}
           />
 
           <Label htmlFor="end">
@@ -90,9 +91,10 @@ export default function UpdateProjectContract({
           <DatePicker date={endDate} setDate={setEndDate} />
 
           <input
-            type="hidden"
+            hidden
+            type="text"
             name="end"
-            defaultValue={endDate?.toDateString()}
+            defaultValue={endDate?.toISOString()}
           />
           <Button
             type="submit"

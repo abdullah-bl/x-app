@@ -22,16 +22,19 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
       </TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className=" w-max ">Name</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead>Created By</TableHead>
+          <TableHead className=" w-max ">Name</TableHead>
           <TableHead className="">Cost</TableHead>
+          <TableHead>By</TableHead>
           <TableHead>Last Updated</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {projects.map((project) => (
           <TableRow key={project.id}>
+            <TableCell>
+              <StatusPreview status={project.expand?.status} />
+            </TableCell>
             <TableCell className="flex-1">
               <Link
                 href={`/projects/${project.id}`}
@@ -40,9 +43,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                 {project.name}
               </Link>
             </TableCell>
-            <TableCell>
-              <StatusPreview status={project.expand?.status} />
-            </TableCell>
+            <TableCell>{formatCurrency(project.cost, "SAR")}</TableCell>
             <TableCell>
               <Link
                 href={`/users/${project.owner}`}
@@ -51,7 +52,6 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                 {project.expand?.owner.name}
               </Link>
             </TableCell>
-            <TableCell>{formatCurrency(project.cost, "SAR")}</TableCell>
             <TableCell className="">
               {formatDistanceToNow(project.updated)}
             </TableCell>

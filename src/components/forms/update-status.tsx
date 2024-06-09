@@ -103,14 +103,6 @@ export default function UpdateProjectStatus({
             required
             placeholder="Write something..."
           />
-          <Label htmlFor="timestamp">When ?</Label>
-          <DatePicker date={date} setDate={setDate} title="When ?" />
-          <input
-            hidden
-            type="text"
-            name="timestamp"
-            defaultValue={date?.toDateString()}
-          />
           <input type="hidden" name="project" value={projectId} />
           <Button
             type="submit"

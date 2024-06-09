@@ -61,6 +61,7 @@ export type Status = BaseModel & {
   description: string
   duration: number // in days
   color: string
+  active: boolean // calculated or not
 }
 
 export type Project = BaseModel & {
@@ -90,7 +91,6 @@ export type Project = BaseModel & {
 export type StatusHistory = BaseModel & {
   project: string
   status: string
-  timestamp: Date
   owner: string
   note: string
   expand?: {

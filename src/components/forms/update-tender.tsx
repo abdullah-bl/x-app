@@ -46,7 +46,7 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
     project?.awardedDate ? new Date(project.awardedDate) : new Date()
   )
 
-  const [state, formAction] = useActionState(updateProject, {
+  const [state, formAction] = useActionState(updateProjectTender, {
     success: false,
     message: "",
   })
@@ -100,7 +100,7 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
             <input
               type="hidden"
               name="submissionDate"
-              defaultValue={submissionDate?.toDateString()}
+              defaultValue={submissionDate?.toISOString()}
             />
 
             <Label htmlFor="lastOfferPresentationDate">
@@ -113,7 +113,7 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
             <input
               type="hidden"
               name="lastOfferPresentationDate"
-              defaultValue={lastOfferPresentationDate?.toDateString()}
+              defaultValue={lastOfferPresentationDate?.toISOString()}
             />
 
             <Label htmlFor="offersOpeningDate">Offers Opening Date</Label>
@@ -124,7 +124,7 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
             <input
               type="hidden"
               name="offersOpeningDate"
-              defaultValue={offersOpeningDate?.toDateString()}
+              defaultValue={offersOpeningDate?.toISOString()}
             />
 
             <Label htmlFor="awardedDate">Awarded Date</Label>
@@ -132,7 +132,7 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
             <input
               type="hidden"
               name="awardedDate"
-              defaultValue={awardedDate?.toDateString()}
+              defaultValue={awardedDate?.toISOString()}
             />
 
             <Label htmlFor="duration">Duration</Label>

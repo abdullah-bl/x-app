@@ -1,7 +1,7 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
 import { getBudgets } from "~/actions/budgets"
-import CustomCard from "~/components/custom/card"
+import MetricCard from "~/components/custom/metricCard"
 import Container from "~/components/layout/container"
 import { PageHeader } from "~/components/layout/header"
 import Hero from "~/components/layout/hero"
@@ -40,10 +40,10 @@ export default async function BudgetsPage({
         </div>
       </PageHeader>
       <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 auto-cols-max grid-flow-row">
-        <CustomCard title="Items" value={budgets.length} />
-        <CustomCard title="Cash" value={formatCurrency(total_cash, "SAR")} />
-        <CustomCard title="Cost" value={formatCurrency(total_cost, "SAR")} />
-        <CustomCard title="P/C" value={formatCurrency(0, "SAR")} />
+        <MetricCard title="Items" value={budgets.length} />
+        <MetricCard title="Cash" value={formatCurrency(total_cash, "SAR")} />
+        <MetricCard title="Cost" value={formatCurrency(total_cost, "SAR")} />
+        <MetricCard title="P/C" value={formatCurrency(0, "SAR")} />
       </div>
     </Container>
   )
