@@ -1,19 +1,12 @@
 import { formatRelative } from "date-fns"
 
 import { getProjectById } from "~/data/projects"
-import { Back } from "~/components/custom/back"
-import CustomCard from "~/components/custom/card"
 import CustomLink from "~/components/custom/link"
-import { formatCurrency } from "~/lib/utils"
-import { getFiles } from "~/data/files"
-import StatusPreview from "~/components/custom/status"
-import { Badge } from "~/components/ui/badge"
-import Link from "next/link"
-import { Pencil1Icon } from "@radix-ui/react-icons"
-import { Button } from "~/components/ui/button"
 import UpdateProjectStatus from "~/components/forms/update-status"
 import Container from "~/components/layout/container"
 import { PageHeader } from "~/components/layout/header"
+import { getUserFromCookies } from "~/lib/auth"
+import Link from "next/link"
 
 export default async function Layout({
   children,
@@ -22,15 +15,29 @@ export default async function Layout({
   children?: React.ReactNode
   params: { id: string }
 }) {
+  const user = await getUserFromCookies()
   const project = await getProjectById(params.id)
-  const filesCount = (await getFiles(`project-${params.id}`)).length
 
   return (
     <Container>
-      <PageHeader showBackButton title={project.name} />
+      <PageHeader showBackButton title={project.name}>
+        <div className="flex items-center justify-end flex-1">
+          {user?.id === project.owner ? (
+            <Link
+              href={`/projects/${params.id}/edit`}
+              className="p-2 px-4 rounded-lg hover:bg-zinc-100 dark:bg-zinc-900 hover:font-medium text-sm"
+            >
+              تعديل
+            </Link>
+          ) : (
+            <span />
+          )}
+        </div>
+      </PageHeader>
       <div className="flex-1 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <UpdateProjectStatus
+            disabled={project.archived}
             projectId={params.id}
             currentStatus={project.expand?.status}
           />
@@ -39,21 +46,22 @@ export default async function Layout({
           </span>
         </div>
         <div className="flex items-center justify-center gap-2 overflow-scroll">
-          <CustomLink href={`/projects/${project.id}/`}>Overview</CustomLink>
+          <CustomLink href={`/projects/${project.id}/`}>ملخص عام</CustomLink>
           <CustomLink href={`/projects/${project.id}/timeline`}>
-            Timeline
+            تسلسل زمني
           </CustomLink>
-          <CustomLink href={`/projects/${project.id}/tasks`}>
-            Tasks (0)
-          </CustomLink>
+          {/* <CustomLink href={`/projects/${project.id}/tasks`}>Tasks</CustomLink> */}
           <CustomLink href={`/projects/${project.id}/budgets`}>
-            Budgets
+            الميزانية و المدفوعات
           </CustomLink>
           <CustomLink href={`/projects/${project.id}/files`}>
-            Files ({filesCount})
+            الملفات
           </CustomLink>
-          <CustomLink href={`/projects/${project.id}/settings`}>
-            Settings
+          <CustomLink href={`/projects/${project.id}/members`}>
+            الأعضاء
+          </CustomLink>
+          <CustomLink href={`/projects/${project.id}/changes`}>
+            التغييرات
           </CustomLink>
         </div>
         <div className="flex-1 py-2">{children}</div>

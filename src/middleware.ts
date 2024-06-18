@@ -1,47 +1,39 @@
 import { NextResponse, type NextRequest } from "next/server"
-import { getUserFromCookies } from "./lib/auth"
+import { getUserFromCookies, isAuthenticated } from "./lib/auth"
 
 export async function middleware(request: NextRequest) {
-  console.log("Middleware")
-  // Add your middleware here
-  const user = await getUserFromCookies() // get user from cookies
-  const pathname = request.nextUrl.pathname
-  console.info(
-    "logged in as",
-    user?.username,
-    "pathname",
-    pathname,
-    "verified",
-    user?.verified
-  )
+  // Log the middleware invocation
+  console.log("Middleware invoked")
 
-  // check if user is logged in and verified before accessing the page
-  if (!user && pathname !== "/login") {
-    console.info("redirecting to /login")
+  // Check if the user is authenticated
+  const isAuth = await isAuthenticated() // get user authentication status from cookies
+
+  // Extract the current path from the request
+  const pathname = request.nextUrl.pathname
+
+  // Define redirection logic
+  if (!isAuth && pathname !== "/login") {
+    // If the user is not authenticated and not on the login page, redirect to login
+    console.info("Redirecting to /login")
     return NextResponse.redirect(new URL("/login", request.url))
-  } else if (user && user.verified && pathname === "/login") {
-    console.info("redirecting to /")
-    return NextResponse.redirect(new URL("/", request.url))
-  } else if (user && !user?.verified && pathname !== "/verify") {
-    console.info("redirecting to /verify")
-    return NextResponse.redirect(new URL("/verify", request.url))
-  } else {
-    return NextResponse.next()
   }
 
-  // if (user) {
-  //   if (user.verified) {
-  //     if (pathname === "/login")
-  //       return NextResponse.redirect(new URL("/", request.url))
-  //     else return NextResponse.next()
-  //   } else {
-  //     if (pathname === "/verify") return NextResponse.next()
-  //     else return NextResponse.redirect(new URL("/verify", request.url))
-  //   }
-  // } else {
-  //   return NextResponse.redirect(new URL("/login", request.url))
-  // }
+  if (isAuth) {
+    if (isAuth.verified && pathname === "/login") {
+      // If the user is authenticated and verified, and tries to access the login page, redirect to home
+      console.info("Redirecting to /")
+      return NextResponse.redirect(new URL("/", request.url))
+    } else if (!isAuth.verified && pathname !== "/verify") {
+      // If the user is authenticated but not verified, and is not on the verification page, redirect to verify
+      console.info("Redirecting to /verify")
+      return NextResponse.redirect(new URL("/verify", request.url))
+    }
+  }
+
+  // If none of the above conditions are met, proceed with the request
+  return NextResponse.next()
 }
+
 export const config = {
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
   matcher: [

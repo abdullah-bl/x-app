@@ -2,6 +2,7 @@ import Container from "~/components/layout/container"
 import { PageHeader } from "~/components/layout/header"
 import FilterTasks from "./components/filter"
 import client from "~/lib/client"
+import { Task } from "~/types"
 
 const getTasks = async ({
   due = new Date().toISOString(),
@@ -11,10 +12,10 @@ const getTasks = async ({
   try {
     console.log(due)
     const filter = []
-    if (due) filter.push(`due~"${due}"`)
-    return await client.collection("tasks").getFullList({
+    if (due) filter.push(`dueDate~"${due}"`)
+    return await client.collection("tasks").getFullList<Task>({
       filter: filter.join("&&"),
-      expand: "assigned,owner,completed_by",
+      expand: "assigned,owner",
     })
   } catch (error) {
     console.error(error)
@@ -45,11 +46,11 @@ export default async function TasksPage({
           <div className="flex-1 p-2 flex flex-col gap-2">
             {tasks.map((task) => (
               <div className="grid gap-1 border rounded-md p-2" key={task.id}>
-                <p className="text-lg">{task.task}</p>
+                <p className="text-lg">{task.content}</p>
                 <span className="text-sm">12:00 PM</span>
                 <div className="flex items-center justify-between">
                   <span className="text-sm">
-                    Assigned to: {task.assigned.length}
+                    Assigned to: {task.assignee.length}
                   </span>
                   <span className="text-sm">Priority: {task.priority}</span>
                 </div>

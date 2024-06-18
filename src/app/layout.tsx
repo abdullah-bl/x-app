@@ -16,21 +16,24 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      dir="rtl"
+      lang="ar"
       translate="no"
       suppressHydrationWarning
       className={Rubik.className}
     >
-      <body className=" overflow-hidden scroll-smooth mx-auto max-w-8xl">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster closeButton />
-        </ThemeProvider>
+      <body>
+        <main className=" overflow-hidden scroll-smooth mx-auto max-w-7xl">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster closeButton position="bottom-center" />
+          </ThemeProvider>
+        </main>
       </body>
     </html>
   )

@@ -4,10 +4,10 @@ import client from "~/lib/client"
 
 export default function DeleteFileForm({
   fileId,
-  projectId,
+  revalPath,
 }: {
   fileId: string
-  projectId: string
+  revalPath: string
 }) {
   async function deleteFile(formData: FormData) {
     "use server"
@@ -17,10 +17,10 @@ export default function DeleteFileForm({
 
       const data = Object.fromEntries(formData)
       await client.collection("files").delete(data.fileId as string)
-      revalidatePath(`/projects/${projectId}/files`)
+      revalidatePath(revalPath)
     } catch (error) {
       console.error(error)
-      throw new Error("Failed to delete task")
+      throw new Error("Failed to delete file")
     }
   }
   return (

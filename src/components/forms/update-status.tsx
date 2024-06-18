@@ -29,15 +29,16 @@ import {
 import StatusPreview from "../custom/status"
 
 export default function UpdateProjectStatus({
+  disabled,
   currentStatus,
   projectId,
 }: {
+  disabled: boolean
   currentStatus: Status | undefined
   projectId: string
 }) {
   const [open, setOpen] = useState(false)
   const [statuses, setStatuses] = useState<Status[]>([]) // [Status
-  const [date, setDate] = useState<Date | undefined>(new Date())
   const [state, formAction] = useActionState(updateProjectStatus, {
     success: false,
     message: "",
@@ -64,26 +65,27 @@ export default function UpdateProjectStatus({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="expandIcon" Icon={Pencil1Icon} iconPlacement="left">
+      <DialogTrigger asChild disabled={disabled}>
+        <Button
+          disabled={disabled}
+          variant="expandIcon"
+          Icon={Pencil1Icon}
+          iconPlacement="right"
+        >
           {currentStatus ? (
             <StatusPreview status={currentStatus} />
           ) : (
-            "Update Status"
+            "عدل الحالة"
           )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="grid gap-1">
-          <DialogTitle className="font-medium">
-            Update Project Status
-          </DialogTitle>
-          <DialogDescription>
-            Update the status of this project.
-          </DialogDescription>
+          <DialogTitle className="font-medium">تعديل حالة المشروع</DialogTitle>
+          <DialogDescription>يمكن تعديل حالة المشروع</DialogDescription>
         </DialogHeader>
         <form className="grid gap-2" action={formAction}>
-          <Label htmlFor="status">Status</Label>
+          <Label htmlFor="status">الحالة</Label>
           <Select defaultValue={currentStatus?.id} name="status">
             <SelectTrigger className="">
               <SelectValue placeholder="Statuses" />
@@ -96,21 +98,17 @@ export default function UpdateProjectStatus({
               ))}
             </SelectContent>
           </Select>
-          <Label htmlFor="note">Note</Label>
-          <Textarea
-            name="note"
-            id="note"
-            required
-            placeholder="Write something..."
-          />
+          <Label htmlFor="note">الملاحظات</Label>
+          <Textarea name="note" id="note" required placeholder="اكتب..." />
           <input type="hidden" name="project" value={projectId} />
           <Button
+            disabled={disabled}
             type="submit"
             variant="expandIcon"
             Icon={CheckIcon}
-            iconPlacement="left"
+            iconPlacement="right"
           >
-            {state?.success === true ? "Updated!" : "Update Status"}
+            {state?.success === true ? "تم التعديل" : "عدل حالة المشروع"}
           </Button>
         </form>
       </DialogContent>

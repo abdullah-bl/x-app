@@ -9,6 +9,22 @@ export type User = BaseModel & {
   apps: string[]
 }
 
+export type Task = BaseModel & {
+  content: string
+  status: "todo" | "inprogress" | "done"
+  priority: "low" | "medium" | "high"
+  owner: string
+  dueDate: Date
+  target: string
+  assignee: string[]
+  dueBy: string
+  expand?: {
+    owner: User
+    assignee: User[]
+    dueBy: User
+  }
+}
+
 export type Item = BaseModel & {
   name: string
   description: string
@@ -74,13 +90,11 @@ export type Project = BaseModel & {
   reference: string
   number: string
   submissionDate: string
-  type: string
-  lastOfferPresentationDate: string
-  offersOpeningDate: string
+  openingDate: string
   awardedDate: string
+  startDate: string
   duration: number
-  start: string
-  end: string
+  type: string
   archived: boolean
   expand?: {
     owner: User

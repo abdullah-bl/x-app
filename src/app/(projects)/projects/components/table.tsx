@@ -16,17 +16,17 @@ import { Project } from "~/types"
 
 export default function ProjectsTable({ projects }: { projects: Project[] }) {
   return (
-    <Table className="border rounded-lg">
+    <Table className="border rounded-lg" dir="rtl">
       <TableCaption>
         A list of projects with their details and status information
       </TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead>Status</TableHead>
-          <TableHead className=" w-max ">Name</TableHead>
-          <TableHead className="">Cost</TableHead>
-          <TableHead>By</TableHead>
-          <TableHead>Last Updated</TableHead>
+          <TableHead>الحالة</TableHead>
+          <TableHead className="">اسم المشروع</TableHead>
+          <TableHead className="">التكلفة</TableHead>
+          <TableHead>المالك</TableHead>
+          <TableHead>آخر تحديث</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -44,7 +44,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
               </Link>
             </TableCell>
             <TableCell>{formatCurrency(project.cost, "SAR")}</TableCell>
-            <TableCell>
+            <TableCell className="min-w-[80px]">
               <Link
                 href={`/users/${project.owner}`}
                 className="hover:underline"

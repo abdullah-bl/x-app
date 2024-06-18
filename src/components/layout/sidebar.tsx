@@ -27,24 +27,26 @@ export default function SideBar({ user }: { user?: User | undefined }) {
         <span className="font-bold text-4xl"> / </span>
       </div>
       <div className="flex flex-col flex-1 w-full gap-1 overflow-scroll">
-        <NavItem href="/" title="Overview" icon={<PaddingIcon />} />
-        <NavItem href="/tasks" title="Tasks" icon={<ListBulletIcon />} />
-        <NavItem href="/calendar" title="Calendar" icon={<CalendarIcon />} />
-        <NavItem href="/projects" title="Projects" icon={<BackpackIcon />} />
+        <NavItem href="/" title="الملخص" icon={<PaddingIcon />} />
+        {/* <NavItem href="/tasks" title="Tasks" icon={<ListBulletIcon />} /> */}
+        <NavItem href="/calendar" title="التقويم" icon={<CalendarIcon />} />
+        <NavItem href="/projects" title="المشاريع" icon={<BackpackIcon />} />
         <NavItem
           href={`/budgets/${currentYear}`}
-          title="Budgets"
+          title="الميزانية"
           icon={<PieChartIcon />}
         />
-        <NavItem href="/reports" title="Reports" icon={<FileIcon />} />
+        <NavItem href="/reports" title="التقارير" icon={<FileIcon />} />
       </div>
-      <div className="flex gap-2 items-center py-2">
+      <div className="flex gap-2 items-center py-2" dir="auto">
         <Link
           href={"/profile"}
-          className="flex items-center justify-between p-2 w-full rounded-md hover:bg-zinc-100 hover:dark:bg-zinc-900 px-4"
+          className="flex items-center justify-between p-2 flex-1 gap-1 rounded-md hover:bg-zinc-100 hover:dark:bg-zinc-900 px-4 overflow-hidden text-nowrap"
         >
           <PersonIcon />
-          {user?.name || "Profile"}
+          <span className=" text-ellipsis text-nowrap overflow-hidden text-clip">
+            {user?.name || "Profile"}
+          </span>
         </Link>
         <form action={signOut}>
           <Button variant={"ghost"} type="submit">

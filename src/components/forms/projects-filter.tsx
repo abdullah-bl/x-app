@@ -62,17 +62,17 @@ export default function ProjectsFilter() {
         <Button
           variant="expandIcon"
           size="sm"
-          iconPlacement="left"
+          iconPlacement="right"
           Icon={MixIcon}
         >
-          Filter
+          تصفية
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Filter Projects</DialogTitle>
+          <DialogTitle>تصفية المشاريع</DialogTitle>
           <DialogDescription>
-            Filter projects by name, cost, status, date, and more.
+            تصفية المشاريع حسب الاسم، التكلفة، الحالة، التاريخ، والمزيد.{" "}
           </DialogDescription>
         </DialogHeader>
         <form method="get" className="flex flex-col gap-2 w-full flex-1">
@@ -120,7 +120,7 @@ export default function ProjectsFilter() {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Filter By Status</SelectLabel>
+                <SelectLabel>تصفي بالحالة</SelectLabel>
                 {statuses.map((status) => (
                   <SelectItem key={status.id} value={status.id}>
                     {status.name}
@@ -139,12 +139,12 @@ export default function ProjectsFilter() {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Sort By</SelectLabel>
+                <SelectLabel>رت حسب</SelectLabel>
                 <SelectItem value="-updated">Recently updated</SelectItem>
                 <SelectItem value="updated">Least updated</SelectItem>
                 <SelectItem value="created">Recently created</SelectItem>
-                <SelectItem value="cost"> Lowest cost</SelectItem>
-                <SelectItem value="-cost">Highest cost</SelectItem>
+                <SelectItem value="cost"> الأقل تكلفة</SelectItem>
+                <SelectItem value="-cost">الأعلى تكلفة</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -154,7 +154,7 @@ export default function ProjectsFilter() {
           />
           <div className="flex items-center gap-2">
             <Button type="submit" size="sm" className="w-full">
-              Filter
+              تصفية
             </Button>
 
             <Button
@@ -165,7 +165,7 @@ export default function ProjectsFilter() {
                 router.push("/projects")
               }}
             >
-              Clear Filter
+              إزل التصفية
             </Button>
           </div>
         </form>

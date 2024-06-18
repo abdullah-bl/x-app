@@ -105,3 +105,15 @@ export const getProjectBudgets = async (projectId: string) => {
     return []
   }
 }
+
+export const getProjectMembers = async (projectId: string) => {
+  try {
+    return await client.collection("project_members").getFullList({
+      filter: `project = "${projectId}"`,
+      expand: "member",
+    })
+  } catch (error) {
+    console.error(error)
+    return []
+  }
+}

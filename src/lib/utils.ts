@@ -38,3 +38,15 @@ export function formatDate(date: Date | string | undefined) {
     day: "numeric",
   })
 }
+
+export function formatDateTime(date: Date | string | undefined) {
+  if (!date) return "N/A"
+  const d = new Date(date)
+  return d?.toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  })
+}

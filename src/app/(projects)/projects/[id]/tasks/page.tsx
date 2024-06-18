@@ -1,31 +1,46 @@
-import { CustomTextarea } from "~/components/custom/textarea"
-import { Button } from "~/components/ui/button"
-import { Label } from "~/components/ui/label"
-import { Textarea } from "~/components/ui/textarea"
+import TaskColumn from "./components/column"
+import client from "~/lib/client"
+import { Task } from "~/types"
 
-export default async function ProjectBudgetsPage({
+export const dynamic = "auto"
+
+const getTasksByTarget = async (target: string) => {
+  try {
+    return await client.collection("tasks").getFullList<Task>({
+      filter: `target ~ "${target}"`,
+      expand: `assignee,owner`,
+    })
+  } catch (error) {
+    console.error(error)
+    return []
+  }
+}
+
+export default async function ProjectTasksPage({
   params,
 }: {
   params: { id: string }
 }) {
+  const tasks = await getTasksByTarget(`projects/${params.id}`)
+  const todos = tasks.filter((task) => task.status === "todo")
+  const inProgress = tasks.filter((task) => task.status === "inprogress")
+  const done = tasks.filter((task) => task.status === "done")
   return (
-    <div className="flex gap-6 flex-wrap flex-1 p-2">
-      <div className="flex flex-col w-1/3 gap-2">
-        <h3 className="text-lg">Add Task</h3>
-        <form className="grid gap-2">
-          <Label htmlFor="content">Content</Label>
-          <Textarea name="content" id="content" />
-          <Button type="submit">Submit</Button>
-        </form>
+    <div className="grid gap-4">
+      <div className="flex items-center justify-between">
+        <div className="grid gap-0">
+          <h3 className="font-medium text-lg"> Project Tasks </h3>
+          <p className="text-sm">
+            A list of tasks that need to be done for this project.
+          </p>
+        </div>
+        <button>Add</button>
       </div>
-      <div className="flex flex-col gap-2 flex-1 w-full">
-        <div className="flex items-center justify-between">
-          <h3 className="font-medium text-lg">Tasks</h3>
-          <span>Filter</span>
-        </div>
-        <div className="grid gap-2 p-2 rounded-lg border">
-          <p>example of task</p>
-        </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 place-content-stretch overflow-scroll gap-4">
+        <TaskColumn title="To Do" tasks={todos} />
+        <TaskColumn title="In Progress" tasks={inProgress} />
+        <TaskColumn title="Done" tasks={done} />
       </div>
     </div>
   )

@@ -5,7 +5,7 @@ import { getUserFromCookies } from "~/lib/auth"
 import client from "~/lib/client"
 import { Project, Status } from "~/types"
 import { createChange } from "./changes"
-import { ContractSchema, TenderSchema } from "~/lib/zod"
+import { DetailsSchema } from "~/lib/zod"
 
 export const createProject = async (prevState: any, formDate: FormData) => {
   try {
@@ -32,8 +32,7 @@ export const createProject = async (prevState: any, formDate: FormData) => {
       reference: "",
       number: "",
       submissionDate: "",
-      lastOfferPresentationDate: "",
-      offersOpeningDate: "",
+      openingDate: "",
       awardedDate: "",
       start: "",
       end: "",
@@ -106,7 +105,7 @@ export const updateProject = async (prevState: any, formDate: FormData) => {
   }
 }
 
-export const updateProjectTender = async (
+export const updateProjectDetails = async (
   prevState: any,
   formDate: FormData
 ) => {
@@ -114,46 +113,20 @@ export const updateProjectTender = async (
     const user = await getUserFromCookies()
     if (!user) return { success: false, message: "User not found" }
     const row_data = Object.fromEntries(formDate.entries())
-    const parsed = TenderSchema.parse(row_data)
+    const parsed = DetailsSchema.parse(row_data)
     await client.collection("projects").update(parsed.id, {
       ...parsed,
     })
     await createChange({
       action: "UPDATE",
       target_id: parsed.id,
-      note: "Tender details has been updated",
+      note: "Project Details has been updated",
       user: user.id,
     })
     revalidatePath(`/projects/${parsed.id}`)
-    return { success: true, message: "Project tender has been updated" }
+    return { success: true, message: "Project details has been updated" }
   } catch (error) {
     console.error(error)
-    return { success: false, message: "Failed to update project tender" }
-  }
-}
-
-export const updateProjectContract = async (
-  prevState: any,
-  formDate: FormData
-) => {
-  try {
-    const user = await getUserFromCookies()
-    if (!user) return { success: false, message: "User not found" }
-    const row_data = Object.fromEntries(formDate.entries())
-    const parsed = ContractSchema.parse(row_data)
-    await client.collection("projects").update(parsed.id, {
-      ...parsed,
-    })
-    await createChange({
-      action: "UPDATE",
-      target_id: parsed.id,
-      note: "Contract details has been updated",
-      user: user.id,
-    })
-    revalidatePath(`/projects/${parsed.id}`)
-    return { success: true, message: "Project contract has been updated" }
-  } catch (error) {
-    console.error(error)
-    return { success: false, message: "Failed to update project contract" }
+    return { success: false, message: "Failed to update project details" }
   }
 }

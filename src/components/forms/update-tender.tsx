@@ -9,7 +9,7 @@ import { Button } from "../ui/button"
 
 import { Label } from "../ui/label"
 import { Input } from "../ui/input"
-import { updateProject, updateProjectTender } from "~/actions/projects"
+import { updateProjectDetails } from "~/actions/projects"
 import { CheckIcon, Pencil1Icon } from "@radix-ui/react-icons"
 import { TenderType } from "../custom/tenderType"
 import {
@@ -21,32 +21,30 @@ import {
   DialogTrigger,
 } from "../ui/dialog"
 
-export default function UpdateTenderDetails({ project }: { project: Project }) {
+export default function UpdateProjectDetails({
+  project,
+}: {
+  project: Project
+}) {
   const [open, setOpen] = useState(false)
 
   const [submissionDate, setSubmissionDate] = useState<Date | undefined>(
     project?.submissionDate ? new Date(project.submissionDate) : new Date()
   )
 
-  const [lastOfferPresentationDate, setLastOfferPresentationDate] = useState<
-    Date | undefined
-  >(
-    project?.lastOfferPresentationDate
-      ? new Date(project.lastOfferPresentationDate)
-      : new Date()
-  )
-
-  const [offersOpeningDate, setOffersOpeningDate] = useState<Date | undefined>(
-    project?.offersOpeningDate
-      ? new Date(project.offersOpeningDate)
-      : new Date()
+  const [openingDate, setOpeningDate] = useState<Date | undefined>(
+    project?.openingDate ? new Date(project.openingDate) : new Date()
   )
 
   const [awardedDate, setAwardedDate] = useState<Date | undefined>(
     project?.awardedDate ? new Date(project.awardedDate) : new Date()
   )
 
-  const [state, formAction] = useActionState(updateProjectTender, {
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    project?.startDate ? new Date(project.startDate) : new Date()
+  )
+
+  const [state, formAction] = useActionState(updateProjectDetails, {
     success: false,
     message: "",
   })
@@ -63,21 +61,21 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="expandIcon" Icon={Pencil1Icon} iconPlacement="left">
-          Edit
+        <Button variant="expandIcon" Icon={Pencil1Icon} iconPlacement="right">
+          تعديل التفاصيل
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Update Tender Details</DialogTitle>
+          <DialogTitle>تحديث تفاصيل المشروع {project?.number}</DialogTitle>
           <DialogDescription>
-            Update tender details for this project
+            يمكنك تحديث البيانات الخاصة بالمشروع
           </DialogDescription>
         </DialogHeader>
         <form className="grid gap-2 " action={formAction}>
           <input type="hidden" name="id" value={project.id} />
           <div className="grid grid-cols-2 gap-1  align-middle">
-            <Label htmlFor="number">Number</Label>
+            <Label htmlFor="number">الرقم المختصر</Label>
             <Input
               type="text"
               id="number"
@@ -85,7 +83,7 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
               defaultValue={project?.number}
               placeholder="Tender Number e.g. 1234/24"
             />
-            <Label htmlFor="reference">Reference</Label>
+            <Label htmlFor="reference">الرقم المرحعي</Label>
             <Input
               type="text"
               id="reference"
@@ -95,7 +93,7 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
               min={0}
               maxLength={10}
             />
-            <Label htmlFor="submissionDate">Submission Date</Label>
+            <Label htmlFor="submissionDate">تاريخ الطرح</Label>
             <DatePicker date={submissionDate} setDate={setSubmissionDate} />
             <input
               type="hidden"
@@ -103,31 +101,15 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
               defaultValue={submissionDate?.toISOString()}
             />
 
-            <Label htmlFor="lastOfferPresentationDate">
-              Last Offer Presentation Date
-            </Label>
-            <DatePicker
-              date={lastOfferPresentationDate}
-              setDate={setLastOfferPresentationDate}
-            />
+            <Label htmlFor="openingDate">تاريخ فتح العروض</Label>
+            <DatePicker date={openingDate} setDate={setOpeningDate} />
             <input
               type="hidden"
-              name="lastOfferPresentationDate"
-              defaultValue={lastOfferPresentationDate?.toISOString()}
+              name="openingDate"
+              defaultValue={openingDate?.toISOString()}
             />
 
-            <Label htmlFor="offersOpeningDate">Offers Opening Date</Label>
-            <DatePicker
-              date={offersOpeningDate}
-              setDate={setOffersOpeningDate}
-            />
-            <input
-              type="hidden"
-              name="offersOpeningDate"
-              defaultValue={offersOpeningDate?.toISOString()}
-            />
-
-            <Label htmlFor="awardedDate">Awarded Date</Label>
+            <Label htmlFor="awardedDate">تاريخ إشعار الترسية</Label>
             <DatePicker date={awardedDate} setDate={setAwardedDate} />
             <input
               type="hidden"
@@ -135,26 +117,34 @@ export default function UpdateTenderDetails({ project }: { project: Project }) {
               defaultValue={awardedDate?.toISOString()}
             />
 
-            <Label htmlFor="duration">Duration</Label>
+            <Label htmlFor="startDate">تأريخ بداية المشروع</Label>
+            <DatePicker date={startDate} setDate={setStartDate} />
+            <input
+              type="hidden"
+              name="startDate"
+              defaultValue={startDate?.toISOString()}
+            />
+
+            <Label htmlFor="duration">مدة المشروع</Label>
             <Input
               id="duration"
               type="number"
               name="duration"
               min={0}
               defaultValue={project?.duration}
-              placeholder="Duration in months"
+              placeholder="المدة في الاشهر"
             />
 
-            <Label htmlFor="type">Tender Type</Label>
+            <Label htmlFor="type">نوع المنافسة</Label>
             <TenderType defaultValue={project?.type} />
           </div>
           <Button
             type="submit"
             variant="expandIcon"
             Icon={CheckIcon}
-            iconPlacement="left"
+            iconPlacement="right"
           >
-            {state?.success === true ? "Updated!" : "Update Details"}
+            {state?.success === true ? "تم التعديل!" : "تعديل بيانات المشروع"}
           </Button>
         </form>
       </DialogContent>
