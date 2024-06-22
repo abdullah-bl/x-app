@@ -1,5 +1,5 @@
 import { formatDate } from "~/lib/utils"
-import UpdateProjectDetails from "~/components/forms/update-tender"
+import UpdateProjectDetails from "~/app/(projects)/projects/[id]/components/update-tender"
 import { Project } from "~/types"
 import { formatDistance } from "date-fns"
 

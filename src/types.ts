@@ -6,7 +6,7 @@ export type User = BaseModel & {
   password?: string
   name: string
   verified: boolean
-  apps: string[]
+  role: "admin" | "user" | "fm" | "pm"
 }
 
 export type Task = BaseModel & {
@@ -30,8 +30,8 @@ export type Item = BaseModel & {
   description: string
   type: "income" | "expense" | "other"
   annually?: boolean
-  start_date?: Date
-  end_date?: Date
+  start_date?: string
+  end_date?: string
 }
 
 export type Budget = BaseModel & {
@@ -102,6 +102,16 @@ export type Project = BaseModel & {
   }
 }
 
+export type Member = BaseModel & {
+  project: string
+  member: string
+  role: "read" | "write"
+  expand?: {
+    project: Project
+    member: User
+  }
+}
+
 export type StatusHistory = BaseModel & {
   project: string
   status: string
@@ -114,7 +124,7 @@ export type StatusHistory = BaseModel & {
   }
 }
 
-export type ProjectBudget = BaseModel & {
+export type Obligation = BaseModel & {
   project: string
   budget: string
   cost: number

@@ -8,16 +8,14 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select"
+} from "../../../../../components/ui/select"
 import { toast } from "sonner"
-import { Textarea } from "../ui/textarea"
-import { DatePicker } from "../custom/date-picker"
+import { Textarea } from "../../../../../components/ui/textarea"
 import { Status } from "~/types"
-import { Button } from "../ui/button"
+import { Button } from "../../../../../components/ui/button"
 
 import { CheckIcon, Pencil1Icon } from "@radix-ui/react-icons"
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
-import { Label } from "../ui/label"
+import { Label } from "../../../../../components/ui/label"
 import {
   Dialog,
   DialogContent,
@@ -25,8 +23,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog"
-import StatusPreview from "../custom/status"
+} from "../../../../../components/ui/dialog"
+import StatusPreview from "../../../../../components/custom/status"
 
 export default function UpdateProjectStatus({
   disabled,
@@ -101,14 +99,8 @@ export default function UpdateProjectStatus({
           <Label htmlFor="note">الملاحظات</Label>
           <Textarea name="note" id="note" required placeholder="اكتب..." />
           <input type="hidden" name="project" value={projectId} />
-          <Button
-            disabled={disabled}
-            type="submit"
-            variant="expandIcon"
-            Icon={CheckIcon}
-            iconPlacement="right"
-          >
-            {state?.success === true ? "تم التعديل" : "عدل حالة المشروع"}
+          <Button disabled={disabled} type="submit" variant="default">
+            {state?.success === true ? "تم التعديل" : "حدث حالة المشروع"}
           </Button>
         </form>
       </DialogContent>

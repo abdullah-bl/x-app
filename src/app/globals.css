@@ -110,3 +110,10 @@ input, textarea {
 th {
   @apply text-right !important
 }
+
+
+@media print {
+  .no-print, header, footer, .no-print *{
+    display: none;
+  }
+}

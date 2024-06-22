@@ -1,5 +1,5 @@
 import Link from "next/link"
-import ProjectsFilter from "~/components/forms/projects-filter"
+import Filter from "./components/filter"
 import Hero from "~/components/layout/hero"
 import { formatCurrency } from "~/lib/utils"
 import MetricCard from "~/components/custom/metricCard"
@@ -53,7 +53,7 @@ export default async function ProjectsPage({
 
   return (
     <Container>
-      <PageHeader title="المشاريع">
+      {/* <PageHeader title="المشاريع">
         <div className="flex-1 flex items-center justify-end gap-2 ">
           <Link
             href="/projects/new"
@@ -62,7 +62,7 @@ export default async function ProjectsPage({
             + مشروع جديد
           </Link>
         </div>
-      </PageHeader>
+      </PageHeader> */}
       <Hero>
         <div className="grid gap-1 place-items-center">
           <h3 className="text-4xl font-medium">ملخص المشاريع</h3>
@@ -97,7 +97,7 @@ export default async function ProjectsPage({
       <div className="grid gap-2">
         <div className="flex items-center justify-between">
           <h3 className="font-medium text-lg">المشاريع</h3>
-          <ProjectsFilter />
+          <Filter />
         </div>
         <ProjectsTable projects={projects} />
       </div>

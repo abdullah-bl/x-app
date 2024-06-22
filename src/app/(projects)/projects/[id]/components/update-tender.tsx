@@ -3,15 +3,15 @@
 import { useActionState, useEffect, useState } from "react"
 
 import { toast } from "sonner"
-import { DatePicker } from "../custom/date-picker"
+import { DatePicker } from "../../../../../components/custom/date-picker"
 import { Project } from "~/types"
-import { Button } from "../ui/button"
+import { Button } from "../../../../../components/ui/button"
 
-import { Label } from "../ui/label"
-import { Input } from "../ui/input"
+import { Label } from "../../../../../components/ui/label"
+import { Input } from "../../../../../components/ui/input"
 import { updateProjectDetails } from "~/actions/projects"
 import { CheckIcon, Pencil1Icon } from "@radix-ui/react-icons"
-import { TenderType } from "../custom/tenderType"
+import { TenderType } from "../../../../../components/custom/tenderType"
 import {
   Dialog,
   DialogContent,
@@ -19,7 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog"
+} from "../../../../../components/ui/dialog"
 
 export default function UpdateProjectDetails({
   project,

@@ -1,5 +1,6 @@
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import { navigate } from "~/actions"
 import { createChange } from "~/actions/changes"
 import { updateProject } from "~/actions/projects"
 import { TenderType } from "~/components/custom/tenderType"
@@ -37,6 +38,7 @@ export default async function EditPage({
         note: "Project details has been updated",
       })
       revalidatePath(`/projects/${id}`)
+      return navigate(`/projects/${id}`)
     } catch (error) {
       throw new Error("Failed to update project")
     }
@@ -45,7 +47,6 @@ export default async function EditPage({
   const toggleProject = async (formData: FormData) => {
     "use server"
     try {
-      console.log(project.archived)
       await client.collection("projects").update(id, {
         archived: !project.archived,
       })
@@ -55,6 +56,8 @@ export default async function EditPage({
         user: user.id,
         note: "Project has been Archived By the Owner!",
       })
+      revalidatePath(`/projects/${id}`)
+      return navigate(`/projects/${id}`)
     } catch (error) {
       throw new Error("Failed to archive project!")
     }

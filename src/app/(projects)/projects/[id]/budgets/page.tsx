@@ -9,9 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table"
-import { getProjectBudgets, getProjectById, getProjects } from "~/data/projects"
 import client from "~/lib/client"
 import { formatCurrency, formatDate } from "~/lib/utils"
+import { getProjectById, getProjectObligations } from "~/data/projects"
 import { Payment } from "~/types"
 
 const getProjectPayments = async (id: string) => {
@@ -32,8 +32,8 @@ export default async function ProjectBudgetsPage({
   params: { id: string }
 }) {
   const project_cost = (await getProjectById(params.id)).cost
-  const budgets = await getProjectBudgets(params.id) // get budgets by project id
-  const total = budgets.reduce(
+  const obligations = await getProjectObligations(params.id) // get budgets by project id
+  const total = obligations.reduce(
     (acc, budget) => acc + budget.cash + budget.cost,
     0
   )
@@ -52,7 +52,7 @@ export default async function ProjectBudgetsPage({
         </div>
         <div className="grid gap-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-medium">إدارة المدفوعات</h3>
+            <h3 className="font-medium">المدفوعات</h3>
             {project_cost > total && <span>Add</span>}
           </div>
           <Table className="border">
@@ -61,7 +61,7 @@ export default async function ProjectBudgetsPage({
               <TableRow>
                 <TableHead className="">#</TableHead>
                 <TableHead>البند</TableHead>
-                <TableHead>مدفوع ؟</TableHead>
+                <TableHead>الحالة</TableHead>
                 <TableHead>المبلغ</TableHead>
                 <TableHead>اخر تحديث</TableHead>
                 <TableHead className="text-right"></TableHead>
@@ -97,8 +97,7 @@ export default async function ProjectBudgetsPage({
         </div>
         <div className="grid gap-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-medium">إدارة الميزانية</h3>
-            {project_cost > total && <span>Add</span>}
+            <h3 className="font-medium">الارتباطات المالية</h3>
           </div>
           <Table className="border">
             <TableCaption>A list of your recent invoices.</TableCaption>
@@ -114,22 +113,22 @@ export default async function ProjectBudgetsPage({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {budgets.map((budget, i) => (
-                <TableRow key={budget.id}>
+              {obligations.map((obligation, i) => (
+                <TableRow key={obligation.id}>
                   <TableCell>{i + 1}</TableCell>
                   <TableCell className="">
                     <Link
-                      href={`/budgets/${budget.expand?.budget.year}/${budget.expand?.budget.item}`}
+                      href={`/budgets/${obligation.expand?.budget.year}/${obligation.expand?.budget.item}`}
                     >
-                      {budget.expand?.budget.expand?.item.name}
+                      {obligation.expand?.budget.expand?.item.name}
                     </Link>
                   </TableCell>
-                  <TableCell>{formatCurrency(budget.cash)}</TableCell>
-                  <TableCell>{formatCurrency(budget.cost)}</TableCell>
+                  <TableCell>{formatCurrency(obligation.cash)}</TableCell>
+                  <TableCell>{formatCurrency(obligation.cost)}</TableCell>
                   <TableCell>
-                    {formatCurrency(budget.cash + budget.cost)}
+                    {formatCurrency(obligation.cash + obligation.cost)}
                   </TableCell>
-                  <TableCell>{formatDate(budget.updated)}</TableCell>
+                  <TableCell>{formatDate(obligation.updated)}</TableCell>
                   <TableCell className="text-right">Edit</TableCell>
                 </TableRow>
               ))}

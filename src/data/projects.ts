@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation"
 import client from "~/lib/client"
 import { formatDateToSQL } from "~/lib/utils"
-import { Project, ProjectBudget, Status, StatusHistory, XFile } from "~/types"
+import { Project, Obligation, Status, StatusHistory, XFile } from "~/types"
 
 export const getProjects = async ({
   sort = "-updated",
@@ -92,14 +92,12 @@ export const getProjectStatusHistory = async (projectId: string) => {
   }
 }
 
-export const getProjectBudgets = async (projectId: string) => {
+export const getProjectObligations = async (projectId: string) => {
   try {
-    return await client
-      .collection("projects_budgets")
-      .getFullList<ProjectBudget>({
-        filter: `project = "${projectId}"`,
-        expand: "budget, owner, budget.item",
-      })
+    return await client.collection("obligations").getFullList<Obligation>({
+      filter: `project = "${projectId}"`,
+      expand: "budget, owner, budget.item",
+    })
   } catch (error) {
     console.error(error)
     return []
@@ -108,7 +106,7 @@ export const getProjectBudgets = async (projectId: string) => {
 
 export const getProjectMembers = async (projectId: string) => {
   try {
-    return await client.collection("project_members").getFullList({
+    return await client.collection("members").getFullList({
       filter: `project = "${projectId}"`,
       expand: "member",
     })

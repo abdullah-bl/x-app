@@ -1,5 +1,6 @@
 import { MagicWandIcon, PaperPlaneIcon } from "@radix-ui/react-icons"
 import { revalidatePath } from "next/cache"
+import { navigate } from "~/actions"
 import { TenderType } from "~/components/custom/tenderType"
 import Container from "~/components/layout/container"
 import { PageHeader } from "~/components/layout/header"
@@ -21,8 +22,8 @@ export default async function NewProjectPage() {
         ...data,
         owner: user.id,
       })
-      console.log("project", project)
       revalidatePath("/projects")
+      return navigate(`/projects/${project.id}`)
     } catch (error) {
       console.log(error)
       throw new Error("Failed to create project")

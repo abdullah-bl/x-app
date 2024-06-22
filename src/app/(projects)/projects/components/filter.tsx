@@ -1,8 +1,8 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
-import { Button } from "../ui/button"
-import { Input } from "../ui/input"
+import { Button } from "~/components/ui/button"
+import { Input } from "~/components/ui/input"
 import {
   Select,
   SelectTrigger,
@@ -11,15 +11,13 @@ import {
   SelectGroup,
   SelectLabel,
   SelectItem,
-} from "../ui/select"
+} from "~/components/ui/select"
 import { useEffect, useState } from "react"
 import { Status } from "~/types"
 import { useRouter } from "next/navigation"
-import { DatePicker } from "../custom/date-picker"
 import { DateRange } from "react-day-picker"
-import { addDays } from "date-fns"
-import { DatePickerWithRange } from "../custom/date-picker-range"
-import { TenderType } from "../custom/tenderType"
+import { DatePickerWithRange } from "~/components/custom/date-picker-range"
+import { TenderType } from "~/components/custom/tenderType"
 import {
   Dialog,
   DialogContent,
@@ -27,10 +25,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog"
+} from "~/components/ui/dialog"
 import { MixIcon } from "@radix-ui/react-icons"
 
-export default function ProjectsFilter() {
+export default function Filter() {
   const searchParams = useSearchParams()
   const router = useRouter()
 

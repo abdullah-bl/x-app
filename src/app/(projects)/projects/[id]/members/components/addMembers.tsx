@@ -38,7 +38,7 @@ export default async function AddMembers({
     "use server"
     try {
       const data = Object.fromEntries(formData)
-      await client.collection("project_members").create(data)
+      await client.collection("members").create(data)
       await createChange({
         target_id: id,
         action: "CREATE",
@@ -58,7 +58,9 @@ export default async function AddMembers({
       </div>
       <form className="flex items-center gap-4 w-full" action={AddMember}>
         <input type="text" hidden value={id} name="project" />
-        <Label htmlFor="member">اسم العضو</Label>
+        <Label htmlFor="member" className="w-fit">
+          اسم العضو
+        </Label>
         <Select name="member" required>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="أختر عضو" />
@@ -92,7 +94,7 @@ export default async function AddMembers({
           type="submit"
           disabled={!ownerId}
         >
-          أضف
+          أضف عضو
         </Button>
       </form>
       <div />

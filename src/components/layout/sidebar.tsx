@@ -4,12 +4,16 @@ import { ModeToggle } from "./theme"
 import {
   BackpackIcon,
   CalendarIcon,
+  ColumnSpacingIcon,
+  DashboardIcon,
   ExitIcon,
   FileIcon,
+  Link1Icon,
   ListBulletIcon,
   PaddingIcon,
   PersonIcon,
   PieChartIcon,
+  PlusIcon,
 } from "@radix-ui/react-icons"
 import { signOut } from "~/lib/auth"
 import { Button } from "~/components/ui/button"
@@ -31,11 +35,27 @@ export default function SideBar({ user }: { user?: User | undefined }) {
         {/* <NavItem href="/tasks" title="Tasks" icon={<ListBulletIcon />} /> */}
         <NavItem href="/calendar" title="التقويم" icon={<CalendarIcon />} />
         <NavItem href="/projects" title="المشاريع" icon={<BackpackIcon />} />
+        <div className="pr-4 flex flex-col gap-1">
+          <NavItem href="/projects/new" title="جديد" icon={<PlusIcon />} />
+        </div>
         <NavItem
           href={`/budgets/${currentYear}`}
           title="الميزانية"
           icon={<PieChartIcon />}
         />
+        <div className="pr-4 flex flex-col gap-1">
+          <NavItem href="/items" title="البنود" icon={<ListBulletIcon />} />
+          <NavItem
+            href={`/budgets/${currentYear}/obligations`}
+            title="الارتباطات المالية"
+            icon={<Link1Icon />}
+          />
+          <NavItem
+            href={`/budgets/${currentYear}/transfers`}
+            title="المناقلات"
+            icon={<ColumnSpacingIcon />}
+          />
+        </div>
         <NavItem href="/reports" title="التقارير" icon={<FileIcon />} />
       </div>
       <div className="flex gap-2 items-center py-2" dir="auto">

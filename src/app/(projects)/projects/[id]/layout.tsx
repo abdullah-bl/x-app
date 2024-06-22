@@ -2,10 +2,10 @@ import { formatRelative } from "date-fns"
 
 import { getProjectById } from "~/data/projects"
 import CustomLink from "~/components/custom/link"
-import UpdateProjectStatus from "~/components/forms/update-status"
+import UpdateProjectStatus from "./components/update-status"
 import Container from "~/components/layout/container"
 import { PageHeader } from "~/components/layout/header"
-import { getUserFromCookies } from "~/lib/auth"
+import { getUserFromCookies, isAllowed } from "~/lib/auth"
 import Link from "next/link"
 
 export default async function Layout({
@@ -15,6 +15,7 @@ export default async function Layout({
   children?: React.ReactNode
   params: { id: string }
 }) {
+  const allowed = await isAllowed("admin", "fm")
   const user = await getUserFromCookies()
   const project = await getProjectById(params.id)
 
@@ -37,7 +38,7 @@ export default async function Layout({
       <div className="flex-1 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <UpdateProjectStatus
-            disabled={project.archived}
+            disabled={project.archived || !allowed}
             projectId={params.id}
             currentStatus={project.expand?.status}
           />

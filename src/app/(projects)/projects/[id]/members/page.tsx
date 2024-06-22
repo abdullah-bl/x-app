@@ -44,7 +44,7 @@ export default async function ProjectMembersPage({
     "use server"
     try {
       const memberId = formDate.get("id") as string
-      await client.collection("project_members").delete(memberId)
+      await client.collection("members").delete(memberId)
       await createChange({
         target_id: id,
         action: "DELETE",

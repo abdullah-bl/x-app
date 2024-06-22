@@ -54,3 +54,10 @@ export const signOut = async () => {
   client.authStore.clear()
   redirect("/login")
 }
+
+// is allowed to access the page
+export const isAllowed = async (...roles: User["role"][]) => {
+  const user = await getUserFromCookies()
+  if (!user) return false
+  return roles.includes(user.role)
+}

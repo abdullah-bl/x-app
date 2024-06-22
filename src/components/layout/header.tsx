@@ -15,7 +15,7 @@ export const PageHeader = ({
   showBackButton?: boolean
 }) => {
   return (
-    <header className="flex items-center p-2 px-4 gap-2 rounded-lg border shadow-sm bg-background/70 text-foreground sticky top-0 z-50">
+    <header className="flex items-center p-2 py-2 px-4 gap-2 rounded-lg border shadow-sm bg-background/70 text-foreground sticky top-0 z-50">
       <MenuButton />
       {showBackButton && <Back />}
       {title && <h3 className="text-lg font-medium">{title}</h3>}
