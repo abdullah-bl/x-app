@@ -5,7 +5,7 @@ import client from "~/lib/client"
 import { ZodError } from "zod"
 import { signInSchema } from "~/lib/zod"
 import { redirect } from "next/navigation"
-import { User } from "~/types"
+import { Role, User } from "~/types"
 
 export const isAuthenticated = async () => {
   const session = cookies().get("pb_auth")
@@ -56,8 +56,8 @@ export const signOut = async () => {
 }
 
 // is allowed to access the page
-export const isAllowed = async (...roles: User["role"][]) => {
+export const isAllowed = async (roles: Role[]) => {
   const user = await getUserFromCookies()
   if (!user) return false
-  return roles.includes(user.role)
+  return user.roles.some((role) => roles.includes(role))
 }

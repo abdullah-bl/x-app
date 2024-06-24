@@ -1,6 +1,7 @@
 import { revalidatePath } from "next/cache"
 import { ItemType } from "~/components/custom/itemType"
 import { PickDate } from "~/components/custom/pickDate"
+import Unauthorized from "~/components/layout/Unauthorized"
 import Container from "~/components/layout/container"
 import { PageHeader } from "~/components/layout/header"
 import { Button } from "~/components/ui/button"
@@ -12,9 +13,9 @@ import client from "~/lib/client"
 import { Item } from "~/types"
 
 export default async function NewItemPage() {
-  const allowed = await isAllowed("admin", "fm")
+  const allowed = await isAllowed(["fm"])
   if (!allowed) {
-    return <div>Unauthorized</div>
+    return <Unauthorized />
   }
 
   const create = async (formData: FormData) => {

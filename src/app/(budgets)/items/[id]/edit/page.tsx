@@ -18,15 +18,16 @@ import {
   isRedirectError,
 } from "next/dist/client/components/redirect"
 import { navigate } from "~/actions"
+import Unauthorized from "~/components/layout/Unauthorized"
 
 export default async function EditItemPage({
   params: { id },
 }: {
   params: { id: string }
 }) {
-  const allowed = await isAllowed("admin", "fm")
+  const allowed = await isAllowed(["fm"])
   if (!allowed) {
-    return <div>Unauthorized</div>
+    return <Unauthorized />
   }
 
   const itemDetails = await getItemById(id)

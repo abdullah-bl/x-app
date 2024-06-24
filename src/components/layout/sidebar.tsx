@@ -28,10 +28,13 @@ export default function SideBar({ user }: { user?: User | undefined }) {
   return (
     <aside className=" hidden lg:flex lg:w-[17em] flex-col h-screen p-2 border-x gap-4 ">
       <div className="flex flex-col items-center py-6">
-        <span className="font-bold text-4xl"> / </span>
+        <Link href={"/"} className="font-bold text-4xl">
+          {" "}
+          /{" "}
+        </Link>
       </div>
       <div className="flex flex-col flex-1 w-full gap-1 overflow-scroll">
-        <NavItem href="/" title="الملخص" icon={<PaddingIcon />} />
+        {/* <NavItem href="/" title="الملخص" icon={<PaddingIcon />} /> */}
         {/* <NavItem href="/tasks" title="Tasks" icon={<ListBulletIcon />} /> */}
         <NavItem href="/calendar" title="التقويم" icon={<CalendarIcon />} />
         <NavItem href="/projects" title="المشاريع" icon={<BackpackIcon />} />

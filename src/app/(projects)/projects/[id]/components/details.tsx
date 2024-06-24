@@ -4,7 +4,7 @@ import { Project } from "~/types"
 import { formatDistance } from "date-fns"
 
 export default async function Details({ project }: { project: Project }) {
-  const { submissionDate, openingDate, startDate, duration } = project
+  const { startDate, duration } = project
   const expectedEndDate = () => {
     if (startDate && duration) {
       const date = new Date(startDate)

@@ -52,7 +52,7 @@ export function BudgetsTable({ budgets }: { budgets: Budget[] }) {
           <TableCell colSpan={2}>الاجمالي</TableCell>
           <TableCell className="">{formatCurrency(total_cash)}</TableCell>
           <TableCell className="">{formatCurrency(total_cost)}</TableCell>
-          <TableCell className="">
+          <TableCell className="" colSpan={2}>
             {formatCurrency(total_cash + total_cost)}
           </TableCell>
         </TableRow>

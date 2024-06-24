@@ -15,7 +15,7 @@ export default async function Layout({
   children?: React.ReactNode
   params: { id: string }
 }) {
-  const allowed = await isAllowed("admin", "fm")
+  const allowed = await isAllowed(["pm"])
   const user = await getUserFromCookies()
   const project = await getProjectById(params.id)
 

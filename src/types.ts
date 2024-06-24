@@ -1,12 +1,14 @@
 import { type BaseModel } from "pocketbase"
 
+export type Role = "manager" | "user" | "fm" | "pm"
+
 export type User = BaseModel & {
   email: string
   username: string
   password?: string
   name: string
   verified: boolean
-  role: "admin" | "user" | "fm" | "pm"
+  roles: Role[]
 }
 
 export type Task = BaseModel & {

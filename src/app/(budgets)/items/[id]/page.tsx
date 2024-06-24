@@ -37,6 +37,8 @@ export default async function ItemDetailPage({
 }: {
   params: { id: string }
 }) {
+  const user = await getUserFromCookies()
+  const allowed = user?.roles.includes("fm")
   const item = await getItemById(id)
   const budgets = await getItemBudgets(id)
 
@@ -58,7 +60,7 @@ export default async function ItemDetailPage({
           <h3>إدارة الميزانيات للبند</h3>
           <p>يمكنك اضافة الميزانيات بالبند من هنا</p>
         </div>
-        <AddBudget itemId={id} />
+        {allowed && <AddBudget itemId={id} />}
       </div>
       <BudgetsTable budgets={budgets} />
     </Container>

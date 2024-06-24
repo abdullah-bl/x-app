@@ -2,16 +2,21 @@ import { MagicWandIcon, PaperPlaneIcon } from "@radix-ui/react-icons"
 import { revalidatePath } from "next/cache"
 import { navigate } from "~/actions"
 import { TenderType } from "~/components/custom/tenderType"
+import Unauthorized from "~/components/layout/Unauthorized"
 import Container from "~/components/layout/container"
 import { PageHeader } from "~/components/layout/header"
 import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
 import { Textarea } from "~/components/ui/textarea"
-import { getUserFromCookies } from "~/lib/auth"
+import { getUserFromCookies, isAllowed } from "~/lib/auth"
 import client from "~/lib/client"
 
 export default async function NewProjectPage() {
+  const allowed = await isAllowed(["pm", "manager"])
+  if (!allowed) {
+    return <Unauthorized />
+  }
   const createProject = async (formData: FormData) => {
     "use server"
     const user = await getUserFromCookies()

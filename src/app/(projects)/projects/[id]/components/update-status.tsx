@@ -73,7 +73,7 @@ export default function UpdateProjectStatus({
           {currentStatus ? (
             <StatusPreview status={currentStatus} />
           ) : (
-            "عدل الحالة"
+            "تغيير الحالة"
           )}
         </Button>
       </DialogTrigger>

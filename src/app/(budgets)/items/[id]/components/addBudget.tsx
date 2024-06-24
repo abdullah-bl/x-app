@@ -29,11 +29,14 @@ export default function AddBudget({ itemId }: { itemId: string }) {
       toast.success(state.message)
     } else if (state.message !== "") {
       toast.error(state.message)
+      console.log(state.data)
     }
   }, [state])
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>+ جديد</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button size={"sm"}>إضافة سنة مالية</Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>إنشاء سنة مالية جديد</DialogTitle>
@@ -51,6 +54,7 @@ export default function AddBudget({ itemId }: { itemId: string }) {
             required
             pattern=""
             min={2020}
+            defaultValue={new Date().getFullYear()}
           />
 
           <Label htmlFor="cash">السيولة</Label>
